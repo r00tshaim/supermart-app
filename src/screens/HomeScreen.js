@@ -1,12 +1,14 @@
 import { Text, View, TextInput } from 'react-native';
 import { EvilIcons } from '@expo/vector-icons';
 
+import Carousel from '../components/Carousel';
+
 const HomeScreen = () => {
 
     return (
         <View>
-            {/* Location */}
-            <View style={{ flexDirection: "row" }}>
+            {/* Location and Search */}
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <View style={{ paddingLeft: 10 }}>
                     <EvilIcons name="location" size={35} color="black" />
                 </View>
@@ -18,9 +20,12 @@ const HomeScreen = () => {
                         Parabda Himmatnagar, 383001
                     </Text>
                 </View>
+                <View style={{ paddingLeft: 80 }}>
+                    <EvilIcons name="search" size={34} color="black" />
+                </View>
             </View>
 
-            {/* Search */}
+            {/* Search Bar
             <View style={{
                 padding: 10,
                 margin: 10,
@@ -33,10 +38,10 @@ const HomeScreen = () => {
             }}>
                 <EvilIcons name="search" size={34} color="black" />
                 <TextInput style={{ fontSize: 16 }} placeholder='Search Store' />
-            </View>
+            </View>*/}
 
             {/* Offers Carousel */}
-
+            <Carousel />
 
         </View >
     );
