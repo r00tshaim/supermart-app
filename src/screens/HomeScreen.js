@@ -1,4 +1,4 @@
-import { Text, View, TextInput } from 'react-native';
+import { Text, View, TextInput, SafeAreaView } from 'react-native';
 import { EvilIcons } from '@expo/vector-icons';
 
 import Carousel from '../components/Carousel';
@@ -6,7 +6,7 @@ import Carousel from '../components/Carousel';
 const HomeScreen = () => {
 
     return (
-        <View>
+        <SafeAreaView>
             {/* Location and Search */}
             <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <View style={{ paddingLeft: 10 }}>
@@ -43,7 +43,7 @@ const HomeScreen = () => {
             {/* Offers Carousel */}
             <Carousel />
 
-        </View >
+        </SafeAreaView >
     );
 };
 
