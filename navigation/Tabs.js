@@ -1,0 +1,96 @@
+import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Image } from 'react-native';
+
+import HomeScreen from '../src/screens/HomeScreen';
+import CartScreen from '../src/screens/CartScreen';
+import OrdersScreen from '../src/screens/OrdersScreen';
+import AccountScreen from '../src/screens/AccountScreen';
+
+import { ICONS } from '../src/constants/icons';
+
+const Tab = createBottomTabNavigator();
+
+const Tabs = () => {
+    return (
+        <Tab.Navigator
+            screenOptions={{
+                tabBarShowLabel: false,
+                headerShown: false,
+                tabBarStyle: {
+                    position: 'absolute',
+                    bottom: 25,
+                    left: 20,
+                    right: 20,
+                    borderRadius: 15,
+                    backgroundColor: '#fff',
+                    height: 70,
+                    elevation: 10,
+                    shadowColor: '#000',
+                    shadowOpacity: 0.2,
+                    shadowOffset: { width: 0, height: 3 },
+                    shadowRadius: 3,
+                },
+
+                tabBarItemStyle: {
+                    flex: 1,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    paddingTop: 20,
+                }
+
+            }}
+        >
+            <Tab.Screen
+                name="Home"
+                component={HomeScreen}
+                options={{
+                    tabBarIcon: ({ focused }) => (
+                        <Image
+                            source={ICONS.home}
+                            style={{ width: 25, height: 25, tintColor: focused ? '#2196f3' : '#ccc' }}
+                        />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="Cart"
+                component={CartScreen}
+                options={{
+                    tabBarIcon: ({ focused }) => (
+                        <Image
+                            source={ICONS.cart}
+                            style={{ width: 25, height: 25, tintColor: focused ? '#2196f3' : '#ccc' }}
+                        />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="Orders"
+                component={OrdersScreen}
+                options={{
+                    tabBarIcon: ({ focused }) => (
+                        <Image
+                            source={ICONS.orders}
+                            style={{ width: 25, height: 25, tintColor: focused ? '#2196f3' : '#ccc' }}
+                        />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="Account"
+                component={AccountScreen}
+                options={{
+                    tabBarIcon: ({ focused }) => (
+                        <Image
+                            source={ICONS.account}
+                            style={{ width: 25, height: 25, tintColor: focused ? '#2196f3' : '#ccc' }}
+                        />
+                    ),
+                }}
+            />
+        </Tab.Navigator >
+    );
+};
+
+export default Tabs;
