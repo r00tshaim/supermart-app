@@ -2,6 +2,7 @@ import { Text, View, TextInput, SafeAreaView } from 'react-native';
 import { EvilIcons } from '@expo/vector-icons';
 
 import Carousel from '../components/Carousel';
+import Categories from '../components/Categories';
 
 const HomeScreen = () => {
 
@@ -42,6 +43,9 @@ const HomeScreen = () => {
 
             {/* Offers Carousel */}
             <Carousel />
+
+            {/* Categories */}
+            <Categories />
 
         </SafeAreaView >
     );
