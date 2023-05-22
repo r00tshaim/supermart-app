@@ -1,7 +1,8 @@
 export const COLORS = {
     green: "#50C878",       //main
-    white: "#ffffff",
+    darkGreen: "#008000",
+    white: "#ffffff",       //text
     silver: "#ccc",
-    black: "#000",
-    
+    black: "#000",          //text
+    darkSilver: "#777",     //strike-through text
 }

@@ -24,7 +24,7 @@ const products = [
 const Categories = () => {
     return (
         <View>
-            <View style={{ paddingTop: 15, paddingLeft: 15 }}>
+            <View style={{ paddingTop: 3, paddingLeft: 15 }}>
                 <Text style={{ fontSize: 25, fontWeight: 600 }}>Categories</Text>
             </View>
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>

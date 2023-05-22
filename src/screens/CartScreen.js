@@ -1,12 +1,26 @@
-import { View, Text, SafeAreaView } from 'react-native'
-import React from 'react'
-
-const CartScreen = () => {
+import {
+    View,
+    Text,
+    SafeAreaView,
+    StatusBar,
+    StyleSheet,
+    Platform,
+  } from "react-native";
+  import React from "react";
+  
+  const CartScreen = () => {
     return (
-        <SafeAreaView>
-            <Text>CartScreen</Text>
-        </SafeAreaView>
-    )
-}
-
-export default CartScreen
+      <SafeAreaView style={styles.AndroidSafeArea}>
+        <Text>CartScreen</Text>
+      </SafeAreaView>
+    );
+  };
+  
+  const styles = StyleSheet.create({
+    AndroidSafeArea: {
+      paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    },
+  });
+  
+  export default CartScreen;
+  

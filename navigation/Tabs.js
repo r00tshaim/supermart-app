@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image } from 'react-native';
+import { Image, Platform } from 'react-native';
 
 import HomeScreen from '../src/screens/HomeScreen';
 import CartScreen from '../src/screens/CartScreen';
@@ -37,7 +37,7 @@ const Tabs = () => {
                     flex: 1,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    paddingTop: 20,
+                    paddingTop: Platform.OS === "android" ? 0 : 20,
                 }
 
             }}
