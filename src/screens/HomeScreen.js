@@ -1,8 +1,16 @@
 import { Text, View, TextInput, SafeAreaView } from 'react-native';
 import { EvilIcons } from '@expo/vector-icons';
 
-import Carousel from '../components/Carousel';
+import OffersSlider from '../components/Carousel';
 import Categories from '../components/Categories';
+
+import { COLORS } from '../constants/colors';
+
+const offers = [
+    { id: 1, name: 'Product 1', price: 9.99, discountedPrice: 5.55, image: 'https://dummyimage.com/250x250/000/fff' },
+    { id: 2, name: 'Product 2', price: 19.99, discountedPrice: 10.00, image: 'https://dummyimage.com/250x250/000/fff' },
+    { id: 3, name: 'Product 3', price: 14.99, discountedPrice: 7.55, image: 'https://dummyimage.com/250x250/000/fff' },
+  ];
 
 const HomeScreen = () => {
 
@@ -11,18 +19,18 @@ const HomeScreen = () => {
             {/* Location and Search */}
             <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <View style={{ paddingLeft: 10 }}>
-                    <EvilIcons name="location" size={35} color="black" />
+                    <EvilIcons name="location" size={35} color={COLORS.green} />
                 </View>
                 <View>
-                    <Text>
+                    <Text style={{color:COLORS.green, fontWeight: "bold"}}>
                         Home
                     </Text>
-                    <Text>
+                    <Text style={{color:COLORS.green}}>
                         Parabda Himmatnagar, 383001
                     </Text>
                 </View>
                 <View style={{ paddingLeft: 80 }}>
-                    <EvilIcons name="search" size={34} color="black" />
+                    <EvilIcons name="search" size={34} color={COLORS.black} />
                 </View>
             </View>
 
@@ -42,7 +50,7 @@ const HomeScreen = () => {
             </View>*/}
 
             {/* Offers Carousel */}
-            <Carousel />
+            <OffersSlider offers={offers} />
 
             {/* Categories */}
             <Categories />

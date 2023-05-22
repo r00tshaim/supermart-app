@@ -1,26 +1,131 @@
-import { StyleSheet, Text, View } from 'react-native';
-import { SliderBox } from "react-native-image-slider-box";
+import React, { useState } from "react";
+import { View, Text, Image, StyleSheet, Dimensions } from "react-native";
+import Carousel, { Pagination } from "react-native-snap-carousel";
+import { COLORS } from "../constants/colors";
 
-export default function Carousel() {
-    const images = [
-        "https://www.shutterstock.com/image-vector/promo-sale-flyer-groceries-grocery-260nw-1778803349.jpg",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQM5e1qSDoUDgBj1ZgADsn8_uPsqyk-TvO4kmXVeZl-l6Xkp19WCM2vWR1Z3Z_Sch0V4uE&usqp=CAU",
-    ]
+const horizontalMargin = 20;
+const slideWidth = 280;
+
+const SLIDER_WIDTH = Dimensions.get("window").width;
+const ITEM_WIDTH = slideWidth + horizontalMargin * 4;
+const itemHeight = 200;
+
+const OffersSlider = ({ offers }) => {
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  const renderOfferItem = ({ item }) => {
     return (
-        <View style={{ paddingTop: 30 }}>
-            <SliderBox
-                images={images}
-                autoPlay
-                circleLoop
-                dotColor={"#13274F"}
-                inactiveDotColor={"#90a4ae"}
-                ImageComponentStyle={{
-                    borderRadius: 15,
-                    width: '94%',
-                }}
-            />
-        </View>
-    );
-}
+      <View style={styles.offerItem}>
 
-const styles = StyleSheet.create({});
+        <View style={styles.detailsContainer}>
+            <Text style={styles.name}>{item.name}</Text>
+            <View style={{flexDirection: "row"}}>
+              <Text style={styles.price}>Rs {item.price}   </Text>
+              <Text style={styles.discountedPrice}>Rs {item.discountedPrice}</Text>
+            </View>
+        </View>
+
+        <View style={styles.imageContainer}>
+          <Image source={{ uri: item.image }} style={styles.image} />
+        </View>
+
+      </View>
+    );
+  };
+
+  return (
+    <View style={styles.container}>
+      <Carousel
+        data={offers}
+        renderItem={renderOfferItem}
+        sliderWidth={SLIDER_WIDTH}
+        itemWidth={ITEM_WIDTH}
+        layout={"default"}
+        loop={true}
+        inactiveSlideOpacity={0.7}
+        inactiveSlideScale={0.9}
+        onSnapToItem={(index) => setActiveSlide(index)}
+      />
+
+      <Pagination
+        dotsLength={offers.length}
+        activeDotIndex={activeSlide}
+        containerStyle={styles.paginationContainer}
+        dotStyle={styles.paginationDot}
+        inactiveDotOpacity={0.4}
+        inactiveDotScale={0.6}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 20,
+    marginBottom: 5,
+  },
+  offerItem: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    overflow: "hidden",
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 10,
+    marginHorizontal: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+    height: 150,
+    justifyContent: "space-between",
+    backgroundColor: COLORS.green
+  },
+  imageContainer: {
+    width: 100,
+    height: 100,
+    borderRadius: 10,
+    marginRight: 10,
+    overflow: "hidden",
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
+    borderRadius: 10,
+  },
+  detailsContainer: {
+
+  },
+  name: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 5,
+    color: COLORS.white
+  },
+  price: {
+    fontSize: 13,
+    color: COLORS.white,
+    textDecorationLine: "line-through",
+  },
+  discountedPrice: {
+    fontSize: 15,
+    color: COLORS.white
+  },
+  paginationContainer: {
+    paddingTop: 8,
+    paddingBottom: 8,
+  },
+  paginationDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginHorizontal: 8,
+    backgroundColor: COLORS.green
+  },
+});
+
+export default OffersSlider;

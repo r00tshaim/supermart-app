@@ -8,6 +8,7 @@ import OrdersScreen from '../src/screens/OrdersScreen';
 import AccountScreen from '../src/screens/AccountScreen';
 
 import { ICONS } from '../src/constants/icons';
+import { COLORS } from '../src/constants/colors';
 
 const Tab = createBottomTabNavigator();
 
@@ -23,10 +24,10 @@ const Tabs = () => {
                     left: 20,
                     right: 20,
                     borderRadius: 15,
-                    backgroundColor: '#fff',
+                    backgroundColor: COLORS.white,
                     height: 70,
                     elevation: 10,
-                    shadowColor: '#000',
+                    shadowColor: COLORS.black,
                     shadowOpacity: 0.2,
                     shadowOffset: { width: 0, height: 3 },
                     shadowRadius: 3,
@@ -48,7 +49,7 @@ const Tabs = () => {
                     tabBarIcon: ({ focused }) => (
                         <Image
                             source={ICONS.home}
-                            style={{ width: 25, height: 25, tintColor: focused ? '#2196f3' : '#ccc' }}
+                            style={{ width: 25, height: 25, tintColor: focused ? COLORS.green : COLORS.silver }}
                         />
                     ),
                 }}
@@ -60,7 +61,7 @@ const Tabs = () => {
                     tabBarIcon: ({ focused }) => (
                         <Image
                             source={ICONS.cart}
-                            style={{ width: 25, height: 25, tintColor: focused ? '#2196f3' : '#ccc' }}
+                            style={{ width: 25, height: 25, tintColor: focused ? COLORS.green : COLORS.silver }}
                         />
                     ),
                 }}
@@ -72,7 +73,7 @@ const Tabs = () => {
                     tabBarIcon: ({ focused }) => (
                         <Image
                             source={ICONS.orders}
-                            style={{ width: 25, height: 25, tintColor: focused ? '#2196f3' : '#ccc' }}
+                            style={{ width: 25, height: 25, tintColor: focused ? COLORS.green : COLORS.silver }}
                         />
                     ),
                 }}
@@ -84,7 +85,7 @@ const Tabs = () => {
                     tabBarIcon: ({ focused }) => (
                         <Image
                             source={ICONS.account}
-                            style={{ width: 25, height: 25, tintColor: focused ? '#2196f3' : '#ccc' }}
+                            style={{ width: 25, height: 25, tintColor: focused ? COLORS.green : COLORS.silver }}
                         />
                     ),
                 }}
