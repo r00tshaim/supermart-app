@@ -1,5 +1,13 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  FlatList,
+  Alert,
+  TouchableOpacity,
+} from "react-native";
 import { COLORS } from "../constants/colors";
 
 const Deals = ({ deals }) => {
@@ -9,15 +17,25 @@ const Deals = ({ deals }) => {
       <View style={styles.offerLabelContainer}>
         <Text style={styles.offerLabel}>{item.offer}</Text>
       </View>
+
       <Image source={{ uri: item.image }} style={styles.image} />
+
       <View style={styles.detailsContainer}>
         <Text style={styles.name}>{item.name}</Text>
         <Text style={styles.description}>{item.description}</Text>
+
         <View style={styles.priceContainer}>
           <Text style={styles.strikethroughPrice}>₹ {item.originalPrice}</Text>
           <Text style={styles.offerPrice}>₹ {item.offerPrice}</Text>
         </View>
       </View>
+
+      <TouchableOpacity
+        style={styles.addButtonContainer}
+        onPress={() => Alert.alert("Add to cart pressed!")}
+      >
+        <Text style={styles.addButtonText}>Add</Text>
+      </TouchableOpacity>
     </View>
   );
 
@@ -42,7 +60,7 @@ const styles = StyleSheet.create({
   container: {
     paddingLeft: 10,
     paddingRight: 10,
-    marginTop: 10
+    marginTop: 10,
   },
   card: {
     marginRight: 10,
@@ -73,7 +91,7 @@ const styles = StyleSheet.create({
   offerLabel: {
     color: COLORS.white,
     fontWeight: "bold",
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
   },
   image: {
     width: "100%",
@@ -106,6 +124,20 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: COLORS.darkGreen,
   },
+  addButtonContainer: {
+    backgroundColor: COLORS.green,
+    width: "80%",
+    marginLeft: 20,
+    marginTop: 5,
+    borderRadius: 10,
+    bottom: 5,
+    padding: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  addButtonText: {
+    color: COLORS.white,
+  }
 });
 
 export default Deals;
