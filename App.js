@@ -4,7 +4,10 @@ import MainNavigation from './navigation/MainNavigation';
 
 export default function App() {
   return (
-    <MainNavigation />
+    <>
+      <StatusBar translucent={true} backgroundColor="transparent" />
+      <MainNavigation />
+    </>
   );
 }
 

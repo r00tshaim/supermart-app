@@ -1,4 +1,4 @@
-import { Text, View, TextInput, SafeAreaView, StyleSheet,Platform, StatusBar } from 'react-native';
+import { Text, View, TextInput, SafeAreaView, StyleSheet,Platform, StatusBar, ScrollView } from 'react-native';
 import { EvilIcons } from '@expo/vector-icons';
 
 import OffersSlider from '../components/Carousel';
@@ -24,6 +24,7 @@ const HomeScreen = () => {
 
     return (
         <SafeAreaView style={styles.AndroidSafeArea}>
+            <ScrollView>
             {/* Location and Search */}
             <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <View style={{ paddingLeft: 10 }}>
@@ -66,6 +67,7 @@ const HomeScreen = () => {
             {/* Deals of the day */}
   <         Deals deals={deals} />
 
+  </ScrollView>
         </SafeAreaView >
     );
 };
