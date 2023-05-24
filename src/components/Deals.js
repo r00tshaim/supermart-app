@@ -10,7 +10,19 @@ import {
 } from "react-native";
 import { COLORS } from "../constants/colors";
 
+import { addToCart } from "../redux/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+
 const Deals = ({ deals }) => {
+
+  const dispatch = useDispatch();
+  //var itemsInCart = useSelector(state => state.cart);
+  //console.log("itemsInCart =", itemsInCart);
+
+  const addToCartHandler = (item) => {
+    //console.log("addToCartHandler item=",item)
+    dispatch(addToCart(item))
+  }
 
   const renderDeal = ({ item }) => (
     <View key={item.id} style={styles.card}>
@@ -32,7 +44,10 @@ const Deals = ({ deals }) => {
 
       <TouchableOpacity
         style={styles.addButtonContainer}
-        onPress={() => Alert.alert("Add to cart pressed!")}
+        onPress={() => {
+          //Alert.alert("Add to cart pressed!");
+          addToCartHandler(item);
+        }}
       >
         <Text style={styles.addButtonText}>Add</Text>
       </TouchableOpacity>
