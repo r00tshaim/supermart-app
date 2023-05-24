@@ -1,7 +1,9 @@
-import React from "react";
+import { View, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Ionicons } from '@expo/vector-icons';
+
+import { COLORS } from "../src/constants/colors";
 
 import Tabs from "./Tabs";
 
@@ -26,10 +28,12 @@ const MainNavigation = () => {
             name="ProductsScreen"
             component={ProductsScreen}            
             options={({ navigation }) => ({
-                //title: 'Products',
-                //headerTitleAlign: 'center',
+                title: 'Products',
+                headerTitleAlign: 'center',
                 headerLeft: () => (
-                    <Ionicons name="arrow-back-circle" size={24} color="black" onPress={() => navigation.goBack()} />
+                    <View style={styles.backArrowContainer}>
+                      <Ionicons name="arrow-back-circle" size={40} color={COLORS.green} onPress={() => navigation.goBack()} />
+                    </View>
                 ),
               })}
         />
@@ -38,5 +42,11 @@ const MainNavigation = () => {
     </NavigationContainer>
   );
 };
+
+const styles = StyleSheet.create({
+  backArrowContainer: {
+    paddingLeft: 10
+  }
+})
 
 export default MainNavigation;

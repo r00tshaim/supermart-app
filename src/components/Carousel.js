@@ -20,8 +20,8 @@ const OffersSlider = ({ offers }) => {
         <View style={styles.detailsContainer}>
             <Text style={styles.name}>{item.name}</Text>
             <View style={{flexDirection: "row"}}>
-              <Text style={styles.price}>Rs {item.price}   </Text>
-              <Text style={styles.discountedPrice}>Rs {item.discountedPrice}</Text>
+              <Text style={styles.price}>₹{item.price}   </Text>
+              <Text style={styles.offerPrice}>₹{item.offerPrice}</Text>
             </View>
         </View>
 
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     textDecorationLine: "line-through",
   },
-  discountedPrice: {
+  offerPrice: {
     fontSize: 15,
     color: COLORS.white
   },
