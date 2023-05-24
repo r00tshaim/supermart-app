@@ -25,8 +25,8 @@ const Deals = ({ deals }) => {
         <Text style={styles.description}>{item.description}</Text>
 
         <View style={styles.priceContainer}>
-          <Text style={styles.strikethroughPrice}>₹ {item.originalPrice}</Text>
-          <Text style={styles.offerPrice}>₹ {item.offerPrice}</Text>
+          <Text style={styles.strikethroughPrice}>₹{item.price}</Text>
+          <Text style={styles.offerPrice}>₹{item.offerPrice}</Text>
         </View>
       </View>
 
