@@ -1,4 +1,6 @@
 import { View, Text, SafeAreaView, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native'
+import { useDispatch } from 'react-redux';
+import { addToCart } from "../redux/cartSlice";
 
 import { COLORS } from '../constants/colors'
 
@@ -7,6 +9,13 @@ import { getProductsbyCategoryId } from "../utils/productsUtil"
 const ProductsScreen = ({route}) => {
   const categoryId = route.params.categoryId;
   const products = getProductsbyCategoryId(categoryId);
+
+  const dispatch = useDispatch();
+
+  const addToCartHandler = (item) => {
+    //console.log("addToCartHandler item=",item)
+    dispatch(addToCart(item))
+  }
 
   const renderProduct = ({ item }) => {
     return (
@@ -31,7 +40,10 @@ const ProductsScreen = ({route}) => {
             <Text style={styles.offerPrice}>₹{item.price}</Text>
           }
           
-          <TouchableOpacity style={styles.addButton}>
+          <TouchableOpacity 
+            style={styles.addButton} 
+            onPress={()=>addToCartHandler(item)}
+          >
             <Text style={styles.addButtonLabel}>Add +</Text>
           </TouchableOpacity>
         </View>

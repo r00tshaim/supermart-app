@@ -8,6 +8,7 @@ import { COLORS } from "../src/constants/colors";
 import Tabs from "./Tabs";
 
 import ProductsScreen from "../src/screens/ProductsScreen";
+import CartBottomTab from "../src/components/CartBottomTab";
 
 const Stack = createStackNavigator();
 
@@ -31,10 +32,15 @@ const MainNavigation = () => {
                 title: 'Products',
                 headerTitleAlign: 'center',
                 headerLeft: () => (
-                    <View style={styles.backArrowContainer}>
+                    <View style={styles.leftHeader}>
                       <Ionicons name="arrow-back-circle" size={40} color={COLORS.green} onPress={() => navigation.goBack()} />
                     </View>
                 ),
+                headerRight: () => (
+                  <View style={styles.rightHeader}>
+                    <CartBottomTab isFocused={false} />
+                  </View>
+                )
               })}
         />
       </Stack.Navigator>
@@ -44,8 +50,11 @@ const MainNavigation = () => {
 };
 
 const styles = StyleSheet.create({
-  backArrowContainer: {
+  leftHeader: {
     paddingLeft: 10
+  },
+  rightHeader: {
+    paddingRight: 15,
   }
 })
 
