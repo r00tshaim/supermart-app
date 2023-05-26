@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image, Platform } from 'react-native';
+import { Image, Platform, View, Text, StyleSheet } from 'react-native';
 
 import HomeScreen from '../src/screens/HomeScreen';
 import CartScreen from '../src/screens/CartScreen';
@@ -9,10 +9,19 @@ import AccountScreen from '../src/screens/AccountScreen';
 
 import { ICONS } from '../src/constants/icons';
 import { COLORS } from '../src/constants/colors';
+import { useSelector } from 'react-redux';
 
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
+    const [cartItemsCount, setCartItemsCount] = useState(0)
+    const items = useSelector((state) => state.cart);
+
+    useEffect(() => {
+        if(items)
+            setCartItemsCount(items.length)
+    }, [items])
+
     return (
         <Tab.Navigator
             screenOptions={{
@@ -59,10 +68,17 @@ const Tabs = () => {
                 component={CartScreen}
                 options={{
                     tabBarIcon: ({ focused }) => (
-                        <Image
-                            source={ICONS.cart}
-                            style={{ width: 25, height: 25, tintColor: focused ? COLORS.green : COLORS.silver }}
-                        />
+                        <View>
+                            <Image
+                                source={ICONS.cart}
+                                style={{ width: 25, height: 25, tintColor: focused ? COLORS.green : COLORS.silver }}
+                            />
+                            <View style={styles.cartItemCounterContainer}>
+                                <Text style={styles.cartItemText}>
+                                    {cartItemsCount}
+                                </Text>
+                            </View>
+                        </View>
                     ),
                 }}
             />
@@ -93,5 +109,24 @@ const Tabs = () => {
         </Tab.Navigator >
     );
 };
+
+const styles = StyleSheet.create({
+    cartItemCounterContainer: {
+            position: 'absolute',
+            right: -6,
+            top: -3,
+            backgroundColor: COLORS.darkGreen,
+            borderRadius: 9,
+            width: 18,
+            height: 18,
+            justifyContent: 'center',
+            alignItems: 'center',
+    },
+    cartItemText: {
+         color: COLORS.white, 
+         fontSize: 10, 
+         fontWeight: 'bold' 
+    }
+})
 
 export default Tabs;
