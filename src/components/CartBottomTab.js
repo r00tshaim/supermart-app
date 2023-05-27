@@ -6,12 +6,13 @@ import { useSelector } from 'react-redux'
 
 const CartBottomTab = ( {isFocused} ) => {
     const [cartItemsCount, setCartItemsCount] = useState(0)
-    const items = useSelector((state) => state.cart);
+    //get count for unique
+    const totalItems = useSelector((state) => state.cart.totalUniqueItems);
 
     useEffect(() => {
-        if(items)
-            setCartItemsCount(items.length)
-    }, [items])
+        setCartItemsCount(totalItems)
+    }, [totalItems])
+
   return (
     <View>
         <Image

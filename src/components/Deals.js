@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 const Deals = ({ deals }) => {
 
   const dispatch = useDispatch();
-  //var itemsInCart = useSelector(state => state.cart);
+  //var itemsInCart = useSelector(state => state.cart.data);
   //console.log("itemsInCart =", itemsInCart);
 
   const addToCartHandler = (item) => {
