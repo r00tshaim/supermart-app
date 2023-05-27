@@ -6,6 +6,7 @@ import HomeScreen from '../src/screens/HomeScreen';
 import CartScreen from '../src/screens/CartScreen';
 import OrdersScreen from '../src/screens/OrdersScreen';
 import AccountScreen from '../src/screens/AccountScreen';
+import SearchScreen from '../src/screens/SearchScreen';
 import CartBottomTab from '../src/components/CartBottomTab';
 
 import { ICONS } from '../src/constants/icons';
@@ -57,11 +58,14 @@ const Tabs = () => {
                 }}
             />
             <Tab.Screen
-                name="Cart"
-                component={CartScreen}
+                name="Search"
+                component={SearchScreen}
                 options={{
                     tabBarIcon: ({ focused }) => (
-                        <CartBottomTab isFocused={focused} />
+                        <Image
+                            source={ICONS.search}
+                            style={{ width: 25, height: 25, tintColor: focused ? COLORS.green : COLORS.silver }}
+                        />
                     ),
                 }}
             />

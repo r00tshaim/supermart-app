@@ -5,6 +5,7 @@ export const ICONS = {
     cart: require(`${ICONS_DIR}/shopping-cart.png`),
     orders: require(`${ICONS_DIR}/list.png`),
     account: require(`${ICONS_DIR}/user.png`),
+    search: require(`${ICONS_DIR}/search.png`),
 
     /* Categories */
     groceries: require(`${ICONS_DIR}/grocery.png`),

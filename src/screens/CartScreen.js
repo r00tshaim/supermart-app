@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { COLORS } from "../constants/colors";
 import { useEffect, useState } from "react";
 import { addToCart, reduceItemQty, removeFromCart } from "../redux/cartSlice";
+import Header from "../common/Header";
 
 const CartScreen = () => {
   const dispatch = useDispatch();
@@ -122,12 +123,14 @@ const CartScreen = () => {
   if (cartItemsState.length === 0) {
     return (
       <SafeAreaView style={styles.AndroidSafeArea}>
+        <Header title={"CartScreen"} isBack={true}/>
         <Text style={styles.emptyCartText}>No Items in Cart</Text>
       </SafeAreaView>
     );
   } else {
     return (
-      <SafeAreaView style={styles.AndroidSafeArea}>
+      <View style={styles.AndroidSafeArea}>
+        <Header title={"Your Cart"} isBack={true}/>
         <View style={{alignSelf: "flex-end", flexDirection: "column", width: 200, paddingTop: 15, paddingBottom: 15}}>
           <Text style={{fontSize: 20, fontWeight: "bold"}}>Cart Total: {totalAmount}</Text>
           <Text style={{fontSize: 15, fontWeight: "bold"}}>You Saved: {totalSaved}</Text>
@@ -138,7 +141,7 @@ const CartScreen = () => {
           keyExtractor={(item) => item.id.toString()}
           contentContainerStyle={styles.listContainer}
         />
-      </SafeAreaView>
+      </View>
     );
   }
 };

@@ -17,7 +17,7 @@ const CartBottomTab = ( {isFocused} ) => {
     <View>
         <Image
             source={ICONS.cart}
-            style={{ width: 25, height: 25, tintColor: isFocused ? COLORS.green : COLORS.silver }}
+            style={{ width: 25, height: 25, tintColor: isFocused ? COLORS.green : COLORS.black }}
         />
         { cartItemsCount > 0 &&
             <View style={styles.cartItemCounterContainer}>

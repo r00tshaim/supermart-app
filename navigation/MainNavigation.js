@@ -9,6 +9,7 @@ import Tabs from "./Tabs";
 
 import ProductsScreen from "../src/screens/ProductsScreen";
 import CartBottomTab from "../src/components/CartBottomTab";
+import CartScreen from "../src/screens/CartScreen";
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,14 @@ const MainNavigation = () => {
                 headerShown: false 
             }}
             component={Tabs}
+        />
+
+        <Stack.Screen
+            name="CartScreen"
+            options={{ 
+                headerShown: false 
+            }}
+            component={CartScreen}
         />
 
         <Stack.Screen
