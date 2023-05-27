@@ -19,9 +19,12 @@ const CartScreen = () => {
 
   const cartItems = useSelector((state) => state.cart.data);
   const [cartItemsState, setcartItemsState] = useState([]);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [totalSaved, setTotalSaved] = useState(0);
 
   useEffect(() => {
     setcartItemsState(cartItems);
+    getTotal(cartItems);
   }, [cartItems]);
 
   const handleIncrementItemQty = (item) => {
@@ -38,6 +41,26 @@ const CartScreen = () => {
     } else if (item.qty > 1) {
       dispatch(reduceItemQty(item));
     }
+  };
+
+  const getTotal = ( items ) => {
+    let total = 0;
+    let youSaved = 0;
+    if (items === undefined || items.length === 0) {
+      setTotalAmount(total);
+      return;
+    }
+    items.map((item) => {
+      if (item.offerPrice){
+        total = total + item.qty * item.offerPrice;
+                              //no of qty for item * ( difference b/w actual price and offer price )
+        youSaved = youSaved + (item.qty * (item.price - item.offerPrice));
+      } else {
+        total = total + item.qty * item.price;
+      }
+    });
+    setTotalAmount(total.toFixed(2));
+    setTotalSaved(youSaved.toFixed(2));
   };
 
   const renderProduct = ({ item }) => {
@@ -99,14 +122,16 @@ const CartScreen = () => {
   if (cartItemsState.length === 0) {
     return (
       <SafeAreaView style={styles.AndroidSafeArea}>
-        <Text style={styles.emptyCartText}>
-          No Items in Cart
-        </Text>
+        <Text style={styles.emptyCartText}>No Items in Cart</Text>
       </SafeAreaView>
     );
   } else {
     return (
       <SafeAreaView style={styles.AndroidSafeArea}>
+        <View style={{alignSelf: "flex-end", flexDirection: "column", width: 200, paddingTop: 15, paddingBottom: 15}}>
+          <Text style={{fontSize: 20, fontWeight: "bold"}}>Cart Total: {totalAmount}</Text>
+          <Text style={{fontSize: 15, fontWeight: "bold"}}>You Saved: {totalSaved}</Text>
+        </View>
         <FlatList
           data={cartItemsState}
           renderItem={renderProduct}
@@ -203,8 +228,11 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   emptyCartText: {
-     fontSize: 16, textAlign: "center", marginTop: 24, fontWeight: "bold"
-  }
+    fontSize: 16,
+    textAlign: "center",
+    marginTop: 24,
+    fontWeight: "bold",
+  },
 });
 
 export default CartScreen;
