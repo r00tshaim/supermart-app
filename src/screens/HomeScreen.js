@@ -1,9 +1,10 @@
-import { Text, View, TextInput, SafeAreaView, StyleSheet,Platform, StatusBar, ScrollView } from 'react-native';
+import { Text, View, TextInput, SafeAreaView, StyleSheet,Platform, StatusBar, ScrollView, TouchableOpacity } from 'react-native';
 import { EvilIcons } from '@expo/vector-icons';
 
 import OffersSlider from '../components/Carousel';
 import Categories from '../components/Categories';
 import Deals from '../components/Deals';
+import CartBottomTab from '../components/CartBottomTab';
 
 import { ICONS } from '../constants/icons';
 import { COLORS } from '../constants/colors';
@@ -44,6 +45,10 @@ const HomeScreen = ({navigation}) => {
         navigation.navigate('ProductsScreen', {categoryId: id});
     }
 
+    const handleCartPress = () => {
+        navigation.navigate('CartScreen');
+    }
+
     return (
         <SafeAreaView style={styles.AndroidSafeArea}>
             <ScrollView>
@@ -60,9 +65,9 @@ const HomeScreen = ({navigation}) => {
                         Parabda Himmatnagar, 383001
                     </Text>
                 </View>
-                <View style={{ paddingLeft: 80 }}>
-                    <EvilIcons name="search" size={34} color={COLORS.black} />
-                </View>
+                <TouchableOpacity style={{ paddingLeft: 80 }} onPress={() => handleCartPress()}>
+                    <CartBottomTab isFocused={false} />
+                </TouchableOpacity>
             </View>
 
             {/* Search Bar
