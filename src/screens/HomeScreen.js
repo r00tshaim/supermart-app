@@ -1,5 +1,6 @@
 import { Text, View, TextInput, SafeAreaView, StyleSheet,Platform, StatusBar, ScrollView, TouchableOpacity } from 'react-native';
 import { EvilIcons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 import OffersSlider from '../components/Carousel';
 import Categories from '../components/Categories';
@@ -39,7 +40,7 @@ const HomeScreen = ({navigation}) => {
             {/* Location and Search */}
             <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <View style={{ paddingLeft: 10 }}>
-                    <EvilIcons name="location" size={35} color={COLORS.green} />
+                <Entypo name="location-pin" size={35} color={COLORS.green} />
                 </View>
                 <View>
                     <Text style={{color:COLORS.green, fontWeight: "bold"}}>
