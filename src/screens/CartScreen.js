@@ -14,11 +14,15 @@ import { COLORS } from "../constants/colors";
 import { useEffect, useState } from "react";
 import { addToCart, reduceItemQty, removeFromCart } from "../redux/cartSlice";
 import Header from "../common/Header";
+import { Entypo } from "@expo/vector-icons";
 
 const CartScreen = () => {
   const dispatch = useDispatch();
 
   const cartItems = useSelector((state) => state.cart.data);
+  const cartUniqueItemsCount = useSelector(
+    (state) => state.cart.totalUniqueItems
+  );
   const [cartItemsState, setcartItemsState] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalSaved, setTotalSaved] = useState(0);
@@ -44,7 +48,15 @@ const CartScreen = () => {
     }
   };
 
-  const getTotal = ( items ) => {
+  const handleCheckout = () => {
+    console.log("checkout pressed");
+  };
+
+  const handleTotalAndSavedContainerPress = () => {
+    console.log("total and saved container pressed")
+  }
+
+  const getTotal = (items) => {
     let total = 0;
     let youSaved = 0;
     if (items === undefined || items.length === 0) {
@@ -52,10 +64,10 @@ const CartScreen = () => {
       return;
     }
     items.map((item) => {
-      if (item.offerPrice){
+      if (item.offerPrice) {
         total = total + item.qty * item.offerPrice;
-                              //no of qty for item * ( difference b/w actual price and offer price )
-        youSaved = youSaved + (item.qty * (item.price - item.offerPrice));
+        //no of qty for item * ( difference b/w actual price and offer price )
+        youSaved = youSaved + item.qty * (item.price - item.offerPrice);
       } else {
         total = total + item.qty * item.price;
       }
@@ -122,25 +134,72 @@ const CartScreen = () => {
   //execution starts here
   if (cartItemsState.length === 0) {
     return (
-      <SafeAreaView style={styles.AndroidSafeArea}>
-        <Header title={"CartScreen"} isBack={true}/>
+      <View style={styles.AndroidSafeArea}>
+        <Header title={"Your Cart"} isBack={true} />
         <Text style={styles.emptyCartText}>No Items in Cart</Text>
-      </SafeAreaView>
+      </View>
     );
   } else {
     return (
-      <View style={styles.AndroidSafeArea}>
-        <Header title={"Your Cart"} isBack={true}/>
-        <View style={{alignSelf: "flex-end", flexDirection: "column", width: 200, paddingTop: 15, paddingBottom: 15}}>
-          <Text style={{fontSize: 20, fontWeight: "bold"}}>Cart Total: {totalAmount}</Text>
-          <Text style={{fontSize: 15, fontWeight: "bold"}}>You Saved: {totalSaved}</Text>
+      <View style={{ flex: 1 }}>
+        <View style={styles.AndroidSafeArea}>
+          <Header title={"Your Cart"} isBack={true} />
+
+          <View
+            style={{
+              flexDirection: "row",
+              paddingTop: 15,
+              paddingBottom: 15,
+              justifyContent: "space-between",
+              marginHorizontal: 17,
+            }}
+          >
+            <View style={{ alignSelf: "center" }}>
+              <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                Cart Items: {cartUniqueItemsCount}
+              </Text>
+            </View>
+            <View style={{}}>
+              <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                Cart Total: {totalAmount}
+              </Text>
+            </View>
+          </View>
+
+          <SafeAreaView>
+            <FlatList
+              data={cartItemsState}
+              renderItem={renderProduct}
+              keyExtractor={(item) => item.id.toString()}
+              contentContainerStyle={styles.listContainer}
+            />
+          </SafeAreaView>
         </View>
-        <FlatList
-          data={cartItemsState}
-          renderItem={renderProduct}
-          keyExtractor={(item) => item.id.toString()}
-          contentContainerStyle={styles.listContainer}
-        />
+
+        <View style={styles.checkOutContainer}>
+          <View style={styles.checkOutBottomTabContainer}>
+
+            <TouchableOpacity style={styles.orderTotalAndSavedContainer} onPress={() => handleTotalAndSavedContainerPress()}>
+              <Text style={styles.orderTotalText}>₹{totalAmount}</Text>
+              <Text style={styles.orderSavedText}>You Saved ₹{totalSaved}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.placeOrderContainer}
+              onPress={() => handleCheckout()}
+            >
+              <Text style={styles.placeOrderText}>
+                Place Order
+                <Entypo
+                  name="chevron-small-right"
+                  size={24}
+                  color={COLORS.white}
+                />
+              </Text>
+            </TouchableOpacity>
+
+          </View>
+        </View>
       </View>
     );
   }
@@ -149,6 +208,10 @@ const CartScreen = () => {
 const styles = StyleSheet.create({
   AndroidSafeArea: {
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+  },
+  listContainer: {
+    flexGrow: 1,
+    paddingBottom: 350, //adjust this property to control the space below the list of cart items
   },
   productContainer: {
     flexDirection: "row",
@@ -235,6 +298,56 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 24,
     fontWeight: "bold",
+  },
+  checkOutContainer: {
+    flex: 1,
+  },
+  checkOutBottomTabContainer: {
+    position: "absolute",
+    bottom: 165,
+    left: 20,
+    right: 20,
+    borderRadius: 15,
+    backgroundColor: COLORS.white,
+    height: 70,
+    elevation: 10,
+    shadowColor: COLORS.black,
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 3 },
+    shadowRadius: 3,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  placeOrderContainer: {
+    alignSelf: "flex-end",
+    backgroundColor: COLORS.green,
+    height: 45,
+    width: 160,
+    borderRadius: 15,
+    marginRight: 10,
+    alignSelf: "center",
+    justifyContent: "center",
+  },
+  placeOrderText: {
+    alignSelf: "center",
+    fontSize: 20,
+    color: COLORS.white,
+    fontWeight: "500",
+  },
+  orderTotalAndSavedContainer: {
+    marginHorizontal: 12,
+    flexDirection: "column",
+  },
+  orderTotalText: {
+    fontSize: 17,
+    fontWeight: "800",
+  },
+  orderSavedText: {
+    fontSize: 12,
+    fontWeight: "600",
+    color: COLORS.green,
   },
 });
 
