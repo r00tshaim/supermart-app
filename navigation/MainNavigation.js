@@ -10,20 +10,21 @@ import Tabs from "./Tabs";
 import ProductsScreen from "../src/screens/ProductsScreen";
 import CartBottomTab from "../src/components/CartBottomTab";
 import CartScreen from "../src/screens/CartScreen";
+import SplashScreen from "../src/screens/SplashScreen";
 
 const Stack = createStackNavigator();
 
 const MainNavigation = () => {
   return (
     <NavigationContainer>
-
       <Stack.Navigator>
+
         <Stack.Screen
-            name="Tabs"
+            name="SplashScreen"
             options={{ 
                 headerShown: false 
             }}
-            component={Tabs}
+            component={SplashScreen}
         />
 
         <Stack.Screen
@@ -52,8 +53,16 @@ const MainNavigation = () => {
                 )
               })}
         />
+
+        <Stack.Screen
+            name="Tabs"
+            options={{ 
+                headerShown: false 
+            }}
+            component={Tabs}
+        />
+
       </Stack.Navigator>
-      
     </NavigationContainer>
   );
 };
