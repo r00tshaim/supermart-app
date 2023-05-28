@@ -12,4 +12,6 @@ export const ICONS = {
     household: require(`${ICONS_DIR}/kitchen.png`),
     personal_care: require(`${ICONS_DIR}/shampoo.png`),
 
+    /* Splash Screen */
+    splashScreenLogo: require(`${ICONS_DIR}/splash-screen-logo.png`),
 }
