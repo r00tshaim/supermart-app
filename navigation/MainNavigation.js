@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Ionicons } from '@expo/vector-icons';
@@ -46,9 +46,9 @@ const MainNavigation = () => {
                     </View>
                 ),
                 headerRight: () => (
-                  <View style={styles.rightHeader}>
+                  <TouchableOpacity style={styles.rightHeader} onPress={() => navigation.navigate('CartScreen')}>
                     <CartBottomTab isFocused={false} />
-                  </View>
+                  </TouchableOpacity>
                 )
               })}
         />

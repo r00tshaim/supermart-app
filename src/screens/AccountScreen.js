@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
+  StatusBar
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import React from "react";
