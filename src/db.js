@@ -54,6 +54,42 @@ export const products = [
     { id: 12, categoryId: 3, name: 'Shampoo', price: 14.99, image: 'https://dummyimage.com/300x200/000/fff' },
 ];
 
+export const users = [
+    {id: 100, name: "user1", mobile: "9999999", savedAddress: [ {id: 11, address: "1, jumma masjid, himmatnagar"} ,{id: 22, address:"Mehtapura, himmatnagar"}] },
+    {id: 101, name: "user2", mobile: "8888888", savedAddress: [ {id: 33, address: "65, manik chok, ahmedabad"} ,{id: 44, address:"RTO, Mumbai"}] },
+    {id: 102, name: "user3", mobile: "7777777", savedAddress: [ {id: 55, address: "30, Panpur Patiya, Zahirabad"} ,{id: 66, address:"RTO, Himmatnagar"}] },
+]
+
+export const admin = [
+    {id: 200, name: "admin1", mobile: "1234567", email: "admin1@gmail.com"},
+    {id: 201, name: "admin2", mobile: "7654321", email: "admin2@gmail.com"},
+]
+
+/*
+const ORDER_STATE = {
+    PROCESSING: "PROCESSING",
+    PLACED: "PLACED",
+    CONFIRMED: "CONFIRMED",
+    OUT_FOR_DELIVERY: "OUT_FOR_DELIVERY",
+    DELIVERED: "DELIVERED",
+    CANCELLED: "CANCELLED"
+}
+refer src/constants/order.js
+*/
+export const orders = [
+    {id: 1000, userId: 100, itemsId: [3,6,9,12], datePlaced: "12/12/2022", dateDelivered: "13/12/2022", state: "PROCESSING", payment: "cod", },
+    {id: 1001, userId: 101, itemsId: [2,4,6,8], datePlaced: "12/11/2022", dateDelivered: "13/11/2022", state: "CONFIRMED", payment: "paid", },
+    {id: 1002, userId: 100, itemsId: [1,2,3,4], datePlaced: "12/10/2022", dateDelivered: "13/10/2022", state: "OUT_FOR_DELIVERY", payment: "cod", },
+    {id: 1003, userId: 102, itemsId: [12,11,10,9], datePlaced: "12/9/2022", dateDelivered: "13/9/2022", state: "DELIVERED", payment: "paid", },
+    {id: 1004, userId: 101, itemsId: [7,8,9,10], datePlaced: "12/12/2023", dateDelivered: "13/12/2023", state: "CANCELLED", payment: "paid", },
+    {id: 1005, userId: 100, itemsId: [3,6,9,12], datePlaced: "12/11/2023", dateDelivered: "13/11/2023", state: "OUT_FOR_DELIVERY", payment: "paid", },
+    {id: 1006, userId: 100, itemsId: [3,6,9,12], datePlaced: "24/12/2023", dateDelivered: "25/12/2023", state: "PROCESSING", payment: "cod", },
+    {id: 1007, userId: 102, itemsId: [2,4,6,8], datePlaced: "12/5/2022", dateDelivered: "13/5/2022", state: "CONFIRMED", payment: "cod", },
+    {id: 1008, userId: 101, itemsId: [1,2,3,4], datePlaced: "12/5/2023", dateDelivered: "13/5/2023", state: "OUT_FOR_DELIVERY", payment: "paid", },
+    {id: 1009, userId: 100, itemsId: [12,11,10,9], datePlaced: "12/3/2022", dateDelivered: "13/3/2022", state: "DELIVERED", payment: "paid",},
+    {id: 10010, userId: 101, itemsId: [7,8,9,10], datePlaced: "12/4/2023", dateDelivered: "13/4/2023", state: "CANCELLED", payment: "paid", },
+    {id: 10011, userId: 100, itemsId: [3,6,9,12], datePlaced: "12/7/2022", dateDelivered: "13/7/2022", state: "OUT_FOR_DELIVERY", payment: "cod", },
+]
 
 
 //-------------------------------------------------------------------------------------------------
