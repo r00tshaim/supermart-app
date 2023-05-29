@@ -11,13 +11,13 @@ import { ICONS } from '../constants/icons';
 import { COLORS } from '../constants/colors';
 import { useEffect, useState } from 'react';
 
-import { deals, offers, categories, products } from '../db';
+import { deals, offers, categories, products, categoreyOffers, productOffers } from '../db';
 
 const HomeScreen = ({navigation}) => {
-    const [offersData, setOffers] = useState([]);
-    const [dealsData, setDeals] = useState([]);
-    const [categoriesData, setCategoriesData] = useState([]);
-    const [products, setProducts] = useState([]);
+    const [categoreyOffersList, setCategoreyOffersList] = useState([]);
+    const [productsOfferList, setProductsOfferList] = useState([]);
+    const [categoriesList, setCategoriesList] = useState([]);
+    const [productsList, setProductsList] = useState([]);
 
     const handleCategorySelect = (id) => {
         navigation.navigate('ProductsScreen', {categoryId: id});
@@ -28,11 +28,11 @@ const HomeScreen = ({navigation}) => {
     }
 
     useEffect(() => {
-        setOffers(offers);
-        setDeals(deals);
-        setCategoriesData(categories);
-        setProducts(products);
-    }, [offers, deals, categories, products]) 
+        setCategoreyOffersList(categoreyOffers);
+        setProductsOfferList(productOffers);
+        setCategoriesList(categories);
+        setProductsList(products);
+    }, [offers, deals, categories, products, categoreyOffers, productOffers]) 
 
     return (
         <SafeAreaView style={styles.AndroidSafeArea}>
@@ -71,13 +71,13 @@ const HomeScreen = ({navigation}) => {
             </View>*/}
 
             {/* Offers Carousel */}
-            <OffersSlider offers={offersData}/>
+            <OffersSlider offers={categoreyOffersList}/>
 
             {/* Categories */}
-            <Categories categoriesList={categoriesData} onSelectCategory={handleCategorySelect}/>
+            <Categories categoriesList={categoriesList} onSelectCategory={handleCategorySelect}/>
 
             {/* Deals of the day */}
-  <         Deals deals={dealsData} />
+            <Deals deals={productsOfferList} />
 
   </ScrollView>
         </SafeAreaView >

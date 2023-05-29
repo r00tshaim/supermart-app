@@ -147,18 +147,23 @@ const OrdersScreen = () => {
     <View style={styles.AndroidSafeArea}>
       <Header title={"Your Orders"} />
 
-      <Text style={{ padding: 10, fontSize: 18 }}>
-        Total Orders: {previousOrders.length}
-      </Text>
+      <View>
 
-      <SafeAreaView>
-        <FlatList
-          data={previousOrders}
-          renderItem={renderProduct}
-          keyExtractor={(item) => item.id}
-          contentContainerStyle={styles.listContainer}
-        />
-      </SafeAreaView>
+        <Text style={{ padding: 10, fontSize: 18 }}>
+          Total Orders: {previousOrders.length}
+        </Text>
+
+        <SafeAreaView>
+          <FlatList
+            data={previousOrders}
+            renderItem={renderProduct}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={styles.listContainer}
+          />
+        </SafeAreaView>
+
+      </View>
+
     </View>
   );
 };

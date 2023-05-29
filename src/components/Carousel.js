@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, Image, StyleSheet, Dimensions } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import { COLORS } from "../constants/colors";
+import { getCategorybyId } from "../utils/categoriesUtil";
 
 const horizontalMargin = 20;
 const slideWidth = 280;
@@ -14,14 +15,15 @@ const OffersSlider = ({ offers }) => {
   const [activeSlide, setActiveSlide] = useState(0);
 
   const renderOfferItem = ({ item }) => {
+    const categorey = getCategorybyId(item.categoreyId)
     return (
-      <View style={styles.offerItem}>
+      <View style={styles.offerItem} key={item.id}>
 
         <View style={styles.detailsContainer}>
-            <Text style={styles.name}>{item.name}</Text>
+            <Text style={styles.nameText}>{categorey.name}</Text>
+
             <View style={{flexDirection: "row"}}>
-              <Text style={styles.price}>₹{item.price}   </Text>
-              <Text style={styles.offerPrice}>₹{item.offerPrice}</Text>
+              <Text style={styles.labelText}>{item.label}</Text>
             </View>
         </View>
 
@@ -65,7 +67,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   offerItem: {
-    backgroundColor: "#fff",
     borderRadius: 10,
     overflow: "hidden",
     flexDirection: "row",
@@ -85,8 +86,8 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.green
   },
   imageContainer: {
-    width: 100,
-    height: 100,
+    width: 120,
+    height: 120,
     borderRadius: 10,
     marginRight: 10,
     overflow: "hidden",
@@ -100,8 +101,8 @@ const styles = StyleSheet.create({
   detailsContainer: {
 
   },
-  name: {
-    fontSize: 18,
+  nameText: {
+    fontSize: 22,
     fontWeight: "bold",
     marginBottom: 5,
     color: COLORS.white
@@ -111,8 +112,8 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     textDecorationLine: "line-through",
   },
-  offerPrice: {
-    fontSize: 15,
+  labelText: {
+    fontSize: 19,
     color: COLORS.white
   },
   paginationContainer: {

@@ -40,18 +40,18 @@ export const categories = [
 
 //format: productId, categoreyId, productName, productMRPPrice, productImage
 export const products = [
-    { id: 1, categoryId: 1, name: 'Apples', price: 9.99, image: 'https://dummyimage.com/300x200/000/fff' },
-    { id: 2, categoryId: 1, name: 'Milk', price: 19.99, image: 'https://dummyimage.com/300x200/000/fff' },
-    { id: 3, categoryId: 2, name: 'Paper Towels', price: 14.99, image: 'https://dummyimage.com/300x200/000/fff' },
-    { id: 4, categoryId: 2, name: 'Laundry Detergent', price: 9.99, image: 'https://dummyimage.com/300x200/000/fff' },
-    { id: 5, categoryId: 3, name: 'Toothpaste', price: 19.99, image: 'https://dummyimage.com/300x200/000/fff' },
-    { id: 6, categoryId: 3, name: 'Shampoo', price: 14.99, image: 'https://dummyimage.com/300x200/000/fff' },
-    { id: 7, categoryId: 4, name: 'Apples', price: 9.99, image: 'https://dummyimage.com/300x200/000/fff' },
-    { id: 8, categoryId: 4, name: 'Milk', price: 19.99, image: 'https://dummyimage.com/300x200/000/fff' },
-    { id: 9, categoryId: 2, name: 'Paper Towels', price: 14.99, image: 'https://dummyimage.com/300x200/000/fff' },
-    { id: 10, categoryId: 2, name: 'Laundry Detergent', price: 9.99, image: 'https://dummyimage.com/300x200/000/fff' },
-    { id: 11, categoryId: 3, name: 'Toothpaste', price: 19.99, image: 'https://dummyimage.com/300x200/000/fff' },
-    { id: 12, categoryId: 3, name: 'Shampoo', price: 14.99, image: 'https://dummyimage.com/300x200/000/fff' },
+    { id: 1, categoryId: 1, name: 'Apples', price: 9.99, image: 'https://dummyimage.com/300x200/000/fff', description: "Decription for Product 1", },
+    { id: 2, categoryId: 1, name: 'Milk', price: 19.99, image: 'https://dummyimage.com/300x200/000/fff', description: "Decription for Product 2", },
+    { id: 3, categoryId: 2, name: 'Paper Towels', price: 14.99, image: 'https://dummyimage.com/300x200/000/fff', description: "Decription for Product 3", },
+    { id: 4, categoryId: 2, name: 'Laundry Detergent', price: 9.99, image: 'https://dummyimage.com/300x200/000/fff', description: "Decription for Product 4", },
+    { id: 5, categoryId: 3, name: 'Toothpaste', price: 19.99, image: 'https://dummyimage.com/300x200/000/fff', description: "Decription for Product 5", },
+    { id: 6, categoryId: 3, name: 'Shampoo', price: 14.99, image: 'https://dummyimage.com/300x200/000/fff', description: "Decription for Product 6", },
+    { id: 7, categoryId: 4, name: 'Apples', price: 9.99, image: 'https://dummyimage.com/300x200/000/fff', description: "Decription for Product 7", },
+    { id: 8, categoryId: 4, name: 'Milk', price: 19.99, image: 'https://dummyimage.com/300x200/000/fff', description: "Decription for Product 8", },
+    { id: 9, categoryId: 2, name: 'Paper Towels', price: 14.99, image: 'https://dummyimage.com/300x200/000/fff', description: "Decription for Product 9", },
+    { id: 10, categoryId: 2, name: 'Laundry Detergent', price: 9.99, image: 'https://dummyimage.com/300x200/000/fff', description: "Decription for Product 10", },
+    { id: 11, categoryId: 3, name: 'Toothpaste', price: 19.99, image: 'https://dummyimage.com/300x200/000/fff', description: "Decription for Product 11", },
+    { id: 12, categoryId: 3, name: 'Shampoo', price: 14.99, image: 'https://dummyimage.com/300x200/000/fff', description: "Decription for Product 12", },
 ];
 
 export const users = [
@@ -98,15 +98,15 @@ export const orders = [
 //format: offerId, productId, productMRPPrice, offerPrice, offerImage
 //productMRPPrice - this can be fetched from products data using productId
 export const productOffers = [
-    { id: 1, productId: 1, price: 9.99, offerPrice: 5.55, image: 'https://dummyimage.com/250x250/000/fff' },
-    { id: 2, productId: 2, price: 19.99, offerPrice: 10.00, image: 'https://dummyimage.com/250x250/000/fff' },
-    { id: 3, productId: 3, price: 14.99, offerPrice: 7.55, image: 'https://dummyimage.com/250x250/000/fff' },
-    { id: 4, productId: 4, price: 9.99, offerPrice: 5.55, image: 'https://dummyimage.com/250x250/000/fff' },
-    { id: 5, productId: 5, price: 19.99, offerPrice: 10.00, image: 'https://dummyimage.com/250x250/000/fff' },
-    { id: 6, productId: 6, price: 14.99, offerPrice: 7.55, image: 'https://dummyimage.com/250x250/000/fff' },
-    { id: 7, productId: 7, price: 9.99, offerPrice: 5.55, image: 'https://dummyimage.com/250x250/000/fff' },
-    { id: 8, productId: 8, price: 19.99, offerPrice: 10.00, image: 'https://dummyimage.com/250x250/000/fff' },
-    { id: 9, productId: 9, price: 14.99, offerPrice: 7.55, image: 'https://dummyimage.com/250x250/000/fff' },
+    { id: 1, productId: 1, label: 'Upto 30% off', price: 9.99, offerPrice: 5.55, image: 'https://dummyimage.com/250x250/000/fff' },
+    { id: 2, productId: 2, label: 'Upto 30% off', price: 19.99, offerPrice: 10.00, image: 'https://dummyimage.com/250x250/000/fff' },
+    { id: 3, productId: 3, label: 'Upto 30% off', price: 14.99, offerPrice: 7.55, image: 'https://dummyimage.com/250x250/000/fff' },
+    { id: 4, productId: 4, label: 'Upto 30% off', price: 9.99, offerPrice: 5.55, image: 'https://dummyimage.com/250x250/000/fff' },
+    { id: 5, productId: 5, label: 'Upto 30% off', price: 19.99, offerPrice: 10.00, image: 'https://dummyimage.com/250x250/000/fff' },
+    { id: 6, productId: 6, label: 'Upto 30% off', price: 14.99, offerPrice: 7.55, image: 'https://dummyimage.com/250x250/000/fff' },
+    { id: 7, productId: 7, label: 'Upto 30% off', price: 9.99, offerPrice: 5.55, image: 'https://dummyimage.com/250x250/000/fff' },
+    { id: 8, productId: 8, label: 'Upto 30% off', price: 19.99, offerPrice: 10.00, image: 'https://dummyimage.com/250x250/000/fff' },
+    { id: 9, productId: 9, label: 'Upto 30% off', price: 14.99, offerPrice: 7.55, image: 'https://dummyimage.com/250x250/000/fff' },
 ];
 
 //offers on categories

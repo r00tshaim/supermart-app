@@ -12,6 +12,7 @@ import { COLORS } from "../constants/colors";
 
 import { addToCart } from "../redux/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { getProductbyId } from "../utils/productsUtil";
 
 const Deals = ({ deals }) => {
 
@@ -24,17 +25,19 @@ const Deals = ({ deals }) => {
     dispatch(addToCart(item))
   }
 
-  const renderDeal = ({ item }) => (
+  const renderDeal = ({ item }) => {
+    const prod = getProductbyId(item.productId)
+  return (
     <View key={item.id} style={styles.card}>
       <View style={styles.offerLabelContainer}>
-        <Text style={styles.offerLabel}>{item.offer}</Text>
+        <Text style={styles.offerLabel}>{item.label}</Text>
       </View>
 
       <Image source={{ uri: item.image }} style={styles.image} />
 
       <View style={styles.detailsContainer}>
-        <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.description}>{item.description}</Text>
+        <Text style={styles.name}>{prod.name}</Text>
+        <Text style={styles.description}>{prod.description}</Text>
 
         <View style={styles.priceContainer}>
           <Text style={styles.strikethroughPrice}>₹{item.price}</Text>
@@ -53,6 +56,7 @@ const Deals = ({ deals }) => {
       </TouchableOpacity>
     </View>
   );
+      }
 
   return (
     <>

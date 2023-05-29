@@ -1,5 +1,7 @@
 import { View, Text, SafeAreaView, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native'
 import { useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
+
 import { addToCart } from "../redux/cartSlice";
 
 import { COLORS } from '../constants/colors'
@@ -7,9 +9,15 @@ import { COLORS } from '../constants/colors'
 import { getProductsbyCategoryId } from "../utils/productsUtil"
 
 const ProductsScreen = ({route}) => {
-  const categoryId = route.params.categoryId;
-  const products = getProductsbyCategoryId(categoryId);
+  const [products, setProducts] = useState([]);
 
+  useEffect(() => {
+    const categoryId = route.params.categoryId;
+    const products = getProductsbyCategoryId(categoryId);
+    setProducts(products);
+  },[])
+  
+  
   const dispatch = useDispatch();
 
   const addToCartHandler = (item) => {
