@@ -1,21 +1,22 @@
 import { View, Text, SafeAreaView, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 
-import { addToCart } from "../redux/cartSlice";
+import { addToCart, removeFromCart } from "../redux/cartSlice";
 
 import { COLORS } from '../constants/colors'
 
 import { getProductsbyCategoryId } from "../utils/productsUtil"
 
 const ProductsScreen = ({route}) => {
+  const cartItems = useSelector((state) => state.cart.data)
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const categoryId = route.params.categoryId;
     const products = getProductsbyCategoryId(categoryId);
     setProducts(products);
-  },[])
+  },[cartItems])
   
   
   const dispatch = useDispatch();
@@ -25,7 +26,16 @@ const ProductsScreen = ({route}) => {
     dispatch(addToCart(item))
   }
 
+  const removeFromCartHandler = (item) => {
+    dispatch(removeFromCart(item))
+  }
+
+  const isItemInCart = (id) => {
+    return cartItems.some((item) => item.id === id)
+  }
+
   const renderProduct = ({ item }) => {
+    const itemCount = isItemInCart(item.id)
     return (
       <View style={styles.productContainer}>
         <View style={styles.imageContainer}>
@@ -48,12 +58,24 @@ const ProductsScreen = ({route}) => {
             <Text style={styles.offerPrice}>₹{item.price}</Text>
           }
           
+          {itemCount > 0 && (
+            <TouchableOpacity 
+            style={styles.removeButton} 
+            onPress={()=>removeFromCartHandler(item)}
+          >
+            <Text style={styles.removeButtonLabel}>Remove from cart</Text>
+          </TouchableOpacity>
+          )}
+
+          {itemCount == 0 && (
           <TouchableOpacity 
             style={styles.addButton} 
             onPress={()=>addToCartHandler(item)}
           >
-            <Text style={styles.addButtonLabel}>Add +</Text>
+            <Text style={styles.addButtonLabel}>Add to cart</Text>
           </TouchableOpacity>
+          )}
+
         </View>
       </View>
     );
@@ -124,16 +146,29 @@ const styles = StyleSheet.create({
   },
   addButton: {
     //backgroundColor: '#007bff',
-    paddingHorizontal: 15,
+    paddingHorizontal: 8,
     paddingVertical: 5,
     borderRadius: 10,
     borderWidth: 0.2,
     alignSelf: 'flex-end',
-    marginHorizontal: 20,
+    marginHorizontal: 0,
 
   },
   addButtonLabel: {
     color: COLORS.black,
+    fontWeight: 'bold',
+  },
+  removeButton: {
+    backgroundColor: '#EB3C3C',
+    paddingHorizontal: 8,
+    paddingVertical: 5,
+    borderRadius: 10,
+    //borderWidth: 0.2,
+    alignSelf: 'flex-end',
+    marginHorizontal: 0,
+  },
+  removeButtonLabel: {
+    color: COLORS.white,
     fontWeight: 'bold',
   },
 });

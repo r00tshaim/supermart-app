@@ -38,9 +38,10 @@ const cartSlice = createSlice({
                 if (item.id !== action.payload.id) {
                     tempData.push(item)
                 } else {
-                    state.totalItems = state.totalItems - 1;
-                    state.totalUniqueItems = state.totalUniqueItems - 1;
                     itemData = item
+                    const totalCountForTheItem = itemData.qty
+                    state.totalItems = state.totalItems - totalCountForTheItem;
+                    state.totalUniqueItems = state.totalUniqueItems - 1;
                 }
             });
             state.data = tempData
