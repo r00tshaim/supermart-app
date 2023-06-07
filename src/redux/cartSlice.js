@@ -16,7 +16,7 @@ const cartSlice = createSlice({
             let isItemExist = false;
             let newItem={};
             tempData.map(item => {
-                if (item.id == action.payload.id) {
+                if (item._id == action.payload._id) {
                     isItemExist = true;
                     item.qty = item.qty + 1;
                     newItem = item;
@@ -35,7 +35,7 @@ const cartSlice = createSlice({
             let tempData = []
             let itemData = "";
             state.data.map(item => {
-                if (item.id !== action.payload.id) {
+                if (item._id !== action.payload._id) {
                     tempData.push(item)
                 } else {
                     itemData = item
@@ -51,7 +51,7 @@ const cartSlice = createSlice({
             let tempData = state.data;
             let itemData = "";
             tempData.map(item => {
-                if (item.id == action.payload.id) {
+                if (item._id == action.payload._id) {
                     itemData = item;
                     item.qty = item.qty - 1;
                     if(item.qty == 0)

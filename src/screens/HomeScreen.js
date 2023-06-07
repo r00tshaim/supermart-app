@@ -25,8 +25,10 @@ const HomeScreen = ({navigation}) => {
     const dispatch = useDispatch();
 
     const handleCategorySelect = (categoryId) => {
-        const productForThisCategory = productsList.filter((prod) => prod.categoryId === categoryId);
-        navigation.navigate('ProductsScreen', {productList: productForThisCategory});
+        const selectedCategory = categoriesList.find((cat) => cat._id === categoryId);
+        const products = productsList.filter((prod) => prod.category === categoryId)
+        const subCategories = selectedCategory.subCategories;
+        navigation.navigate('ProductsScreen', {productList: products});
     }
 
     const handleCartPress = () => {

@@ -6,7 +6,7 @@ React Native Supermart application
 2. npm install
 3. Setup .env file at root of project
      - #variables to generate REST API URL.  -> eg http://192.168.0.101:5555/api
-     - `REST_API_SERVER=http://192.168.0.101`
+     - `REST_API_SERVER=192.168.0.101`
      - `PORT=5555`
      - `BASE=api`
 4. `expo start` (or `npx expo start`)
