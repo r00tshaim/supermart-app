@@ -28,7 +28,7 @@ const HomeScreen = ({navigation}) => {
         const selectedCategory = categoriesList.find((cat) => cat._id === categoryId);
         const products = productsList.filter((prod) => prod.category === categoryId)
         const subCategories = selectedCategory.subCategories;
-        navigation.navigate('ProductsScreen', {productList: products});
+        navigation.navigate('ProductsScreen', {productList: products, subCategoriesList: subCategories});
     }
 
     const handleCartPress = () => {
@@ -104,6 +104,9 @@ const HomeScreen = ({navigation}) => {
             <OffersSlider offers={categoreyOffersList}/>
 
             {/* Categories */}
+            <View style={{ paddingTop: 3, paddingLeft: 15 }}>
+                <Text style={{ fontSize: 25, fontWeight: 600 }}>Categories</Text>
+            </View>
             <Categories categoriesList={categoriesList} onSelectCategory={handleCategorySelect}/>
 
             {/* Deals of the day */}

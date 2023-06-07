@@ -15,9 +15,6 @@ const Categories = ({categoriesList, onSelectCategory}) => {
 
     return (
         <View>
-            <View style={{ paddingTop: 3, paddingLeft: 15 }}>
-                <Text style={{ fontSize: 25, fontWeight: 600 }}>Categories</Text>
-            </View>
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                 {listOfCatgories.map((category, index) => (
                     <TouchableOpacity key={category._id} style={{ padding: 10, margin: 10 }} onPress={() => handleCategorySelect(category._id)}>
