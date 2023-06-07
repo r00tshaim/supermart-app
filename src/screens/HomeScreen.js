@@ -7,11 +7,14 @@ import Categories from '../components/Categories';
 import Deals from '../components/Deals';
 import CartBottomTab from '../components/CartBottomTab';
 
-import { ICONS } from '../constants/icons';
 import { COLORS } from '../constants/colors';
 import { useEffect, useState } from 'react';
 
-import { deals, offers, categories, products, categoreyOffers, productOffers } from '../db';
+import { categoreyOffers, productOffers } from '../db';
+
+import axiosClient from '../axios/axiosClient';
+import { setCategoriesInventory, setProductsInventory } from '../redux/inventorySlice';
+import { useDispatch } from 'react-redux';
 
 const HomeScreen = ({navigation}) => {
     const [categoreyOffersList, setCategoreyOffersList] = useState([]);
@@ -19,20 +22,45 @@ const HomeScreen = ({navigation}) => {
     const [categoriesList, setCategoriesList] = useState([]);
     const [productsList, setProductsList] = useState([]);
 
-    const handleCategorySelect = (id) => {
-        navigation.navigate('ProductsScreen', {categoryId: id});
+    const dispatch = useDispatch();
+
+    const handleCategorySelect = (categoryId) => {
+        const productForThisCategory = productsList.filter((prod) => prod.categoryId === categoryId);
+        navigation.navigate('ProductsScreen', {productList: productForThisCategory});
     }
 
     const handleCartPress = () => {
         navigation.navigate('CartScreen');
     }
 
+    const getProducts = async () => {
+        try {
+            const data = await axiosClient.get("/v1/products")
+            dispatch(setProductsInventory(data.data.products))
+            setProductsList(data.data.products)
+        } catch(err) { 
+            console.log("Get Products failed")
+        }
+    }
+
+    const getCategories = async () => {
+        try {
+            const data = await axiosClient.get("/v1/categories")
+            dispatch(setCategoriesInventory(data.data.categories))
+            setCategoriesList(data.data.categories);
+        } catch(err) { 
+            console.log("Get Categories failed")
+        }
+    }
+
+
+
     useEffect(() => {
         setCategoreyOffersList(categoreyOffers);
         setProductsOfferList(productOffers);
-        setCategoriesList(categories);
-        setProductsList(products);
-    }, [offers, deals, categories, products, categoreyOffers, productOffers]) 
+        getProducts();
+        getCategories();
+    }, [categoreyOffers, productOffers]) 
 
     return (
         <SafeAreaView style={styles.AndroidSafeArea}>

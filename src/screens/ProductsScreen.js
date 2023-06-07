@@ -9,14 +9,16 @@ import { COLORS } from '../constants/colors'
 import { getProductsbyCategoryId } from "../utils/productsUtil"
 
 const ProductsScreen = ({route}) => {
+  //getting cart state to check if item already in cart
   const cartItems = useSelector((state) => state.cart.data)
+
+  //list of products provided to this component
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    const categoryId = route.params.categoryId;
-    const products = getProductsbyCategoryId(categoryId);
-    setProducts(products);
-  },[cartItems])
+    const productsList = route.params.productList; 
+    setProducts(productsList);
+  },[])
   
   
   const dispatch = useDispatch();
