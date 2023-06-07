@@ -3,9 +3,9 @@ import {REST_API_SERVER, PORT, BASE} from "@env"
 
 const axiosClient = axios.create();
 
-const url = `${REST_API_SERVER}:${PORT}/${BASE}`;
+const url = `http://${REST_API_SERVER}:${PORT}/${BASE}`;
 console.log("URL=",url)
-axiosClient.defaults.baseURL = `${REST_API_SERVER}:${PORT}/${BASE}`;
+axiosClient.defaults.baseURL = `http://${REST_API_SERVER}:${PORT}/${BASE}`;
 
 
 axiosClient.defaults.headers = {

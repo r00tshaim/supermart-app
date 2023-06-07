@@ -1,6 +1,7 @@
 import { View, Text, SafeAreaView, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
+import {REST_API_SERVER} from "@env"
 
 import { addToCart, removeFromCart } from "../redux/cartSlice";
 
@@ -33,31 +34,32 @@ const ProductsScreen = ({route}) => {
   }
 
   const isItemInCart = (id) => {
-    return cartItems.some((item) => item.id === id)
+    //console.log("id=", id);
+    return cartItems.some((item) => item._id === id)
   }
 
   const renderProduct = ({ item }) => {
-    const itemCount = isItemInCart(item.id)
+    const itemCount = isItemInCart(item._id)
     return (
       <View style={styles.productContainer}>
         <View style={styles.imageContainer}>
-          <Image source={{ uri: item.image }} style={styles.image} />
+          <Image source={{ uri: item.image.replace(/localhost/g, `${REST_API_SERVER}`) }} style={styles.image} />
         </View>
         <View style={styles.productDetailsContainer}>
           <Text style={styles.name}>{item.name}</Text>
           <Text style={styles.description}>{item.description}</Text>
           
-          { item.offerPrice && 
+          { item.offerPrice !== -1 && 
             (<View style={styles.priceContainer}>
               <Text style={styles.offerPrice}>₹{item.offerPrice}</Text>
-              <Text style={styles.originalPrice}>₹{item.price}</Text>
+              <Text style={styles.originalPrice}>₹{item.mrpPrice}</Text>
               </View>
             )
           }
 
           { //when offerPrice is not available, display only actual price of item
-            item.offerPrice === undefined && 
-            <Text style={styles.offerPrice}>₹{item.price}</Text>
+            item.offerPrice === -1 && 
+            <Text style={styles.offerPrice}>₹{item.mrpPrice}</Text>
           }
           
           {itemCount > 0 && (
@@ -86,10 +88,11 @@ const ProductsScreen = ({route}) => {
 
   return (
     <SafeAreaView style={styles.container}>
+
         <FlatList
           data={products}
           renderItem={renderProduct}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item) => item._id}
           contentContainerStyle={styles.listContainer}
         />
     </SafeAreaView>

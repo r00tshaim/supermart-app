@@ -27,6 +27,27 @@ const CartScreen = () => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalSaved, setTotalSaved] = useState(0);
 
+  const getTotal = (items) => {
+    let total = 0;
+    let youSaved = 0;
+    if (items === undefined || items.length === 0) {
+      setTotalAmount(total);
+      return;
+    }
+    items.map((item) => {
+      // -1 in offer price means offer is not there on this product
+      if (item.offerPrice !== -1) {
+        total = total + item.qty * item.offerPrice;
+        //no of qty for item * ( difference b/w actual price and offer price )
+        youSaved = youSaved + item.qty * (item.mrpPrice - item.offerPrice);
+      } else {
+        total = total + item.qty * item.mrpPrice;
+      }
+    });
+    setTotalAmount(total.toFixed(2));
+    setTotalSaved(youSaved.toFixed(2));
+  };
+
   useEffect(() => {
     setcartItemsState(cartItems);
     getTotal(cartItems);
@@ -56,25 +77,6 @@ const CartScreen = () => {
     console.log("total and saved container pressed")
   }
 
-  const getTotal = (items) => {
-    let total = 0;
-    let youSaved = 0;
-    if (items === undefined || items.length === 0) {
-      setTotalAmount(total);
-      return;
-    }
-    items.map((item) => {
-      if (item.offerPrice) {
-        total = total + item.qty * item.offerPrice;
-        //no of qty for item * ( difference b/w actual price and offer price )
-        youSaved = youSaved + item.qty * (item.price - item.offerPrice);
-      } else {
-        total = total + item.qty * item.price;
-      }
-    });
-    setTotalAmount(total.toFixed(2));
-    setTotalSaved(youSaved.toFixed(2));
-  };
 
   const renderProduct = ({ item }) => {
     return (
@@ -86,19 +88,20 @@ const CartScreen = () => {
           <Text style={styles.name}>{item.name}</Text>
           <Text style={styles.description}>{item.description}</Text>
 
-          {item.offerPrice && (
-            <View style={styles.priceContainer}>
-              <Text style={styles.offerPrice}>₹{item.offerPrice}</Text>
-              <Text style={styles.originalPrice}>₹{item.price}</Text>
-            </View>
-          )}
-
           {
             //when offerPrice is not available, display only actual price of item
-            item.offerPrice === undefined && (
-              <Text style={styles.offerPrice}>₹{item.price}</Text>
+            item.offerPrice === -1 && (
+              <Text style={styles.offerPrice}>₹{item.mrpPrice}</Text>
             )
           }
+
+          {item.offerPrice !== -1 && (
+            <View style={styles.priceContainer}>
+              <Text style={styles.offerPrice}>₹{item.offerPrice}</Text>
+              <Text style={styles.originalPrice}>₹{item.mrpPrice}</Text>
+            </View>
+          )}
+  
 
           {item.qty === undefined || item.qty == 0 ? (
             <TouchableOpacity
@@ -170,7 +173,7 @@ const CartScreen = () => {
             <FlatList
               data={cartItemsState}
               renderItem={renderProduct}
-              keyExtractor={(item) => item.id.toString()}
+              keyExtractor={(item) => item._id}
               contentContainerStyle={styles.listContainer}
             />
           </SafeAreaView>
