@@ -22,7 +22,8 @@ const Categories = ({categoriesList, onSelectCategory}) => {
                         {/*<Text style={{ padding: 10, borderWidth: 1, margin: 10, borderRadius: 10 }}>
                             {category.name}
                 </Text>*/}
-                        <Image source={category.image} style={{ height: 50, width: 50 }} />
+                        <Image source={{ uri:category.image }} style={{ height: 50, width: 50, alignSelf: "center" }} />
+                        <Text style={{paddingTop: 5}}>{category.name}</Text>
                     </TouchableOpacity>
                 ))}
             </ScrollView>
