@@ -5,6 +5,7 @@ import {REST_API_SERVER} from "@env"
 
 import { addToCart, removeFromCart } from "../redux/cartSlice";
 
+import Categories from '../components/Categories';
 import { COLORS } from '../constants/colors'
 
 import { getProductsbyCategoryId } from "../utils/productsUtil"
@@ -15,11 +16,24 @@ const ProductsScreen = ({route}) => {
 
   //list of products provided to this component
   const [products, setProducts] = useState([]);
+  const [subCategories, setSubCategoriesList] = useState([]);
+  const [selectedSubCat, setSelectedSubCat] = useState(null);
 
   useEffect(() => {
     const productsList = route.params.productList; 
-    setProducts(productsList);
-  },[])
+    const subCategoriesList = route.params.subCategoriesList;
+
+    if(selectedSubCat !== null) {
+      const showProducts = productsList.filter((prod) => prod.subcategory === selectedSubCat)
+      setProducts(showProducts);
+    } else {
+      setProducts(productsList);
+      setSubCategoriesList(subCategoriesList);
+    }
+
+    
+
+  },[selectedSubCat])
   
   
   const dispatch = useDispatch();
@@ -89,6 +103,8 @@ const ProductsScreen = ({route}) => {
   return (
     <SafeAreaView style={styles.container}>
 
+       <Categories categoriesList={subCategories} onSelectCategory={(id) => setSelectedSubCat(id)} />
+
         <FlatList
           data={products}
           renderItem={renderProduct}
@@ -100,6 +116,9 @@ const ProductsScreen = ({route}) => {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    marginBottom: 150,
+  },
   productContainer: {
     flexDirection: 'row',
     alignItems: 'center',
