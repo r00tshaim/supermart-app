@@ -10,7 +10,7 @@ import CartBottomTab from '../components/CartBottomTab';
 import { COLORS } from '../constants/colors';
 import { useEffect, useState } from 'react';
 
-import { categoreyOffers, productOffers } from '../db';
+import { categoreyOffers } from '../db';
 
 import axiosClient from '../axios/axiosClient';
 import { setCategoriesInventory, setProductsInventory } from '../redux/inventorySlice';
@@ -21,6 +21,7 @@ const HomeScreen = ({navigation}) => {
     const [productsOfferList, setProductsOfferList] = useState([]);
     const [categoriesList, setCategoriesList] = useState([]);
     const [productsList, setProductsList] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     const dispatch = useDispatch();
 
@@ -58,11 +59,18 @@ const HomeScreen = ({navigation}) => {
 
 
     useEffect(() => {
-        setCategoreyOffersList(categoreyOffers);
-        setProductsOfferList(productOffers);
-        getProducts();
-        getCategories();
-    }, [categoreyOffers, productOffers]) 
+
+        if(isLoading) {
+            getProducts();
+            getCategories();
+            setIsLoading(false);
+        } else {
+            setCategoreyOffersList(categoreyOffers);
+            //products with no offers have offerPrice == -1 (by default from REST API)
+            const productsWithOffers = productsList.filter((prod) => prod.offerPrice !== -1)
+            setProductsOfferList(productsWithOffers); 
+        } 
+    }, [productsList, categoriesList]) 
 
     return (
         <SafeAreaView style={styles.AndroidSafeArea}>
