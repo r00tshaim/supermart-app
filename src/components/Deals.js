@@ -9,10 +9,10 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { COLORS } from "../constants/colors";
+import {REST_API_SERVER} from "@env"
 
 import { addToCart } from "../redux/cartSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { getProductbyId } from "../utils/productsUtil";
+import { useDispatch } from "react-redux";
 
 const Deals = ({ deals }) => {
 
@@ -26,21 +26,27 @@ const Deals = ({ deals }) => {
   }
 
   const renderDeal = ({ item }) => {
-    const prod = getProductbyId(item.productId)
+    //calculate percentage from mrpPrice and offerPrice
+    const percentageDiscount = (item.mrpPrice - item.offerPrice) / item.mrpPrice * 100
+    //get round off value which is greater and in muliples of 10
+    //ie if percentageDiscount is 27 -> roundOffPercentage will be 30
+    //note: use Math.round if you want roundOffPercentage to be 20 in case percentageDiscount is 27
+    const roundOffPercentage = Math.ceil(percentageDiscount / 10) * 10
+    const offerLabel = `Upto ${roundOffPercentage}% off`
   return (
     <View key={item.id} style={styles.card}>
       <View style={styles.offerLabelContainer}>
-        <Text style={styles.offerLabel}>{item.label}</Text>
+        <Text style={styles.offerLabel}>{offerLabel}</Text>
       </View>
 
-      <Image source={{ uri: item.image }} style={styles.image} />
+      <Image source={{ uri: item.image.replace(/localhost/g, `${REST_API_SERVER}`) }} style={styles.image} />
 
       <View style={styles.detailsContainer}>
-        <Text style={styles.name}>{prod.name}</Text>
-        <Text style={styles.description}>{prod.description}</Text>
+        <Text style={styles.name}>{item.name}</Text>
+        {/*<Text style={styles.description}>{item.description}</Text>*/}
 
         <View style={styles.priceContainer}>
-          <Text style={styles.strikethroughPrice}>₹{item.price}</Text>
+          <Text style={styles.strikethroughPrice}>₹{item.mrpPrice}</Text>
           <Text style={styles.offerPrice}>₹{item.offerPrice}</Text>
         </View>
       </View>
@@ -66,7 +72,7 @@ const Deals = ({ deals }) => {
       <FlatList
         data={deals}
         renderItem={renderDeal}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item._id}
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.container}
