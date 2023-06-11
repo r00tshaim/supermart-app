@@ -33,6 +33,7 @@ const Deals = ({ deals }) => {
     //note: use Math.round if you want roundOffPercentage to be 20 in case percentageDiscount is 27
     const roundOffPercentage = Math.ceil(percentageDiscount / 10) * 10
     const offerLabel = `Upto ${roundOffPercentage}% off`
+    const customName = `${item.name} ${item.quantity}${item.quantityUnit}`
   return (
     <View key={item.id} style={styles.card}>
       <View style={styles.offerLabelContainer}>
@@ -42,7 +43,7 @@ const Deals = ({ deals }) => {
       <Image source={{ uri: item.image.replace(/localhost/g, `${REST_API_SERVER}`) }} style={styles.image} />
 
       <View style={styles.detailsContainer}>
-        <Text style={styles.name}>{item.name}</Text>
+        <Text style={styles.name}>{customName}</Text>
         {/*<Text style={styles.description}>{item.description}</Text>*/}
 
         <View style={styles.priceContainer}>
@@ -126,12 +127,12 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   name: {
-    fontSize: 16,
+    fontSize: 13,
     fontWeight: "bold",
     marginBottom: 5,
   },
   description: {
-    fontSize: 14,
+    fontSize: 12,
     marginBottom: 5,
   },
   priceContainer: {

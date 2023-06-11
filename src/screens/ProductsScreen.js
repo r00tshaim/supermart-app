@@ -54,13 +54,14 @@ const ProductsScreen = ({route}) => {
 
   const renderProduct = ({ item }) => {
     const itemCount = isItemInCart(item._id)
+    const customName = `${item.name} ${item.quantity}${item.quantityUnit}` 
     return (
       <View style={styles.productContainer}>
         <View style={styles.imageContainer}>
           <Image source={{ uri: item.image.replace(/localhost/g, `${REST_API_SERVER}`) }} style={styles.image} />
         </View>
         <View style={styles.productDetailsContainer}>
-          <Text style={styles.name}>{item.name}</Text>
+          <Text style={styles.name}>{customName}</Text>
           <Text style={styles.description}>{item.description}</Text>
           
           { item.offerPrice !== -1 && 
@@ -144,12 +145,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   name: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
     marginBottom: 5,
   },
   description: {
-    fontSize: 14,
+    fontSize: 12,
     marginBottom: 5,
   },
   priceContainer: {

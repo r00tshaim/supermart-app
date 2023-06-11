@@ -97,3 +97,126 @@ export const categoreyOffers = [
     { id: 8, label: 'Upto 20% off', image: 'https://dummyimage.com/300x200/000/fff', categoreyId: 8, description: 'Short description of categoreyOffers' },
     { id: 9, label: 'Upto 40% off', image: 'https://dummyimage.com/300x200/000/fff', categoreyId: 9, description: 'Short description of categoreyOffers' },
 ];
+
+
+export const ordersLists = [
+    {
+      id: 1000,
+      userId: 100,
+      datePlaced: "12/12/2022",
+      dateDelivered: "13/12/2022",
+      state: "DELIVERED",
+      orderTotal: "1234.90",
+      payment: "cod",
+      orderItems: [
+        {
+          id: 1,
+          categoryId: 1,
+          name: "Apples",
+          price: 9.99,
+          image: "https://dummyimage.com/300x200/000/fff",
+          quantity: 1, 
+          quantityUnit: "Kg"
+        },
+        {
+          id: 2,
+          categoryId: 1,
+          name: "Milk",
+          price: 19.99,
+          image: "https://dummyimage.com/300x200/000/fff",
+          quantity: 1, 
+          quantityUnit: "L"
+        },
+        {
+          id: 3,
+          categoryId: 2,
+          name: "Paper Towels",
+          price: 14.99,
+          image: "https://dummyimage.com/300x200/000/fff",
+          quantity: 1, 
+          quantityUnit: "Pack"
+        },
+      ],
+    },
+
+
+    {
+        id: 2000,
+        userId: 100,
+        datePlaced: "12/12/2023",
+        dateDelivered: "",
+        state: "PLACED",
+        orderTotal: "4000.00",
+        payment: "cod",
+        orderItems: [
+          {
+            id: 1,
+            categoryId: 1,
+            name: "Apples",
+            price: 9.99,
+            image: "https://dummyimage.com/300x200/000/fff",
+            quantity: 1, 
+            quantityUnit: "Kg"
+          },
+          {
+            id: 2,
+            categoryId: 1,
+            name: "Milk",
+            price: 19.99,
+            image: "https://dummyimage.com/300x200/000/fff",
+            quantity: 1, 
+            quantityUnit: "L"
+          },
+          {
+            id: 3,
+            categoryId: 2,
+            name: "Paper Towels",
+            price: 14.99,
+            image: "https://dummyimage.com/300x200/000/fff",
+            quantity: 1, 
+            quantityUnit: "Pack"
+          },
+        ],
+      },
+
+
+      {
+        id: 3000,
+        userId: 100,
+        datePlaced: "12/12/2023",
+        dateDelivered: "",
+        state: "OUT_FOR_DELIVERY",
+        orderTotal: "599.00",
+        payment: "cod",
+        orderItems: [
+          {
+            id: 1,
+            categoryId: 1,
+            name: "Apples",
+            price: 9.99,
+            image: "https://dummyimage.com/300x200/000/fff",
+            quantity: 1, 
+            quantityUnit: "Kg"
+          },
+          {
+            id: 2,
+            categoryId: 1,
+            name: "Milk",
+            price: 19.99,
+            image: "https://dummyimage.com/300x200/000/fff",
+            quantity: 1, 
+            quantityUnit: "L"
+          },
+          {
+            id: 3,
+            categoryId: 2,
+            name: "Paper Towels",
+            price: 14.99,
+            image: "https://dummyimage.com/300x200/000/fff",
+            quantity: 1, 
+            quantityUnit: "Pack"
+          },
+        ],
+      },
+    
+]
