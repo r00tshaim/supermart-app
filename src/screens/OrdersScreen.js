@@ -15,7 +15,7 @@ import Header from "../common/Header";
 import { COLORS } from "../constants/colors";
 import { ORDER_STATE_COLOR } from "../constants/order";
 
-import { orders, users } from "../db";
+import { ordersLists, users } from "../db";
 
 const OrdersScreen = () => {
   const currentUserId = users[0].id;
@@ -25,43 +25,7 @@ const OrdersScreen = () => {
     //get current used Id
     //get Orders for current user id
     //get expanded orders
-    setPreviousOrders([
-      {
-        id: 1000,
-        userId: 100,
-        itemsId: [3, 6, 9, 12],
-        datePlaced: "12/12/2022",
-        dateDelivered: "13/12/2022",
-        state: "DELIVERED",
-        orderTotal: "1234.90",
-        payment: "cod",
-        orderItems: [
-          {
-            id: 1,
-            categoryId: 1,
-            name: "Apples",
-            price: 9.99,
-            image: "https://dummyimage.com/300x200/000/fff",
-          },
-          {
-            id: 2,
-            categoryId: 1,
-            name: "Milk",
-            price: 19.99,
-            image: "https://dummyimage.com/300x200/000/fff",
-          },
-          {
-            id: 3,
-            categoryId: 2,
-            name: "Paper Towels",
-            price: 14.99,
-            image: "https://dummyimage.com/300x200/000/fff",
-          },
-        ],
-      },
-
-      
-    ]);
+    setPreviousOrders(ordersLists);
   }, []);
 
   const renderProduct = ({ item }) => {
@@ -107,7 +71,7 @@ const OrdersScreen = () => {
                 key={product.id}
                 style={{ paddingLeft: 10, alignSelf: "center" }}
               >
-                {product.name}
+                {product.name} {product.quantity}{product.quantityUnit}
               </Text>
             </View>
           ))}
