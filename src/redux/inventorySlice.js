@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const INITIAL_STATE_INVENTORY = {
     products: [],
     categories: [],
+    brands: [],
 }
 
 // Slice
@@ -18,8 +19,12 @@ const inventorySlice = createSlice({
             state.categories = action.payload
             console.log(`setCategoriesInventory() INVENTORY STATE UPDATED\nCategories length=${state.categories.length}`);
         },
+        setBrandsInventory: (state, action) => {
+            state.brands = action.payload
+            console.log(`setBrandsInventory() INVENTORY STATE UPDATED\nBrands length=${state.brands.length}`);
+        }
     },
 });
 
-export const { setProductsInventory, setCategoriesInventory } = inventorySlice.actions;
+export const { setProductsInventory, setCategoriesInventory, setBrandsInventory } = inventorySlice.actions;
 export default inventorySlice.reducer;

@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 import { categoreyOffers } from '../db';
 
 import axiosClient from '../axios/axiosClient';
-import { setCategoriesInventory, setProductsInventory } from '../redux/inventorySlice';
+import { setCategoriesInventory, setProductsInventory, setBrandsInventory } from '../redux/inventorySlice';
 import { useDispatch } from 'react-redux';
 
 const HomeScreen = ({navigation}) => {
@@ -21,6 +21,7 @@ const HomeScreen = ({navigation}) => {
     const [productsOfferList, setProductsOfferList] = useState([]);
     const [categoriesList, setCategoriesList] = useState([]);
     const [productsList, setProductsList] = useState([]);
+    const [brandsList, setBrandsList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const dispatch = useDispatch();
@@ -32,6 +33,11 @@ const HomeScreen = ({navigation}) => {
         navigation.navigate('ProductsScreen', {productList: products, subCategoriesList: subCategories});
     }
 
+    const handleBrandSelect = (brandId) => {
+        const products = productsList.filter((prod) => prod.brand === brandId)
+        navigation.navigate('ProductsScreen', {productList: products});
+    }
+
     const handleCartPress = () => {
         navigation.navigate('CartScreen');
     }
@@ -40,7 +46,9 @@ const HomeScreen = ({navigation}) => {
         try {
             const data = await axiosClient.get("/v1/products")
             dispatch(setProductsInventory(data.data.products))
+            dispatch(setBrandsInventory(data.data.brands))
             setProductsList(data.data.products)
+            setBrandsList(data.data.brands)
         } catch(err) { 
             console.log("Get Products failed")
         }
@@ -120,6 +128,11 @@ const HomeScreen = ({navigation}) => {
             {/* Deals of the day */}
             <Deals deals={productsOfferList} />
 
+            <View style={{ paddingTop: 15, paddingLeft: 15 }}>
+                <Text style={{ fontSize: 25, fontWeight: 600 }}>Shop by Brands</Text>
+            </View>
+            <Categories categoriesList={brandsList} onSelectCategory={handleBrandSelect}/>
+
   </ScrollView>
         </SafeAreaView >
     );
@@ -128,6 +141,7 @@ const HomeScreen = ({navigation}) => {
 const styles = StyleSheet.create({
     AndroidSafeArea: {
         paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+        marginBottom: 80
     },
 })
 
