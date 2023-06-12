@@ -8,7 +8,6 @@ import { addToCart, removeFromCart } from "../redux/cartSlice";
 import Categories from '../components/Categories';
 import { COLORS } from '../constants/colors'
 
-import { getProductsbyCategoryId } from "../utils/productsUtil"
 
 const ProductsScreen = ({route}) => {
   //getting cart state to check if item already in cart
@@ -21,7 +20,8 @@ const ProductsScreen = ({route}) => {
 
   useEffect(() => {
     const productsList = route.params.productList; 
-    const subCategoriesList = route.params.subCategoriesList;
+    //subCategoriesList is not passed when ProductsScreen is navigatied by Brands selection, hence [] in such cases
+    const subCategoriesList = route.params.subCategoriesList || [];
 
     if(selectedSubCat !== null) {
       const showProducts = productsList.filter((prod) => prod.subcategory === selectedSubCat)
@@ -104,7 +104,10 @@ const ProductsScreen = ({route}) => {
   return (
     <SafeAreaView style={styles.container}>
 
-       <Categories categoriesList={subCategories} onSelectCategory={(id) => setSelectedSubCat(id)} />
+      {/* Do not render sub categories filter, when ProductsScreen is navigatied by Brands selection,
+        since subCategories=[] in such cases, hence we can easily decide to render sub categories or not */}
+      {subCategories.length > 0 &&
+       <Categories categoriesList={subCategories} onSelectCategory={(id) => setSelectedSubCat(id)} /> }
 
         <FlatList
           data={products}
