@@ -182,11 +182,11 @@ const SearchScreen = () => {
       </View>
 
       {searchQuery.length === 0 ? (
-        <ScrollView style={styles.categoryContainer}>
+        <View style={styles.categoryContainer}>
           {renderCategories()}
-        </ScrollView>
+        </View>
       ) : (
-        <ScrollView>{renderSearchResults()}</ScrollView>
+        <View>{renderSearchResults()}</View>
       )}
     </SafeAreaView>
   );

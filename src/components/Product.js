@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { COLORS } from '../constants/colors'
 import {REST_API_SERVER} from "@env"
 
-import { addToCart, removeFromCart } from "../redux/cartSlice";
+import { addToCart, reduceItemQty ,removeFromCart } from "../redux/cartSlice";
 
 const Product = ({ prod }) => {
-    const [itemCount, setItemCount] = useState(0)
+    const [itemCartObj, setItemCartObj] = useState(undefined)
     const [customName, setCustomName] = useState("")
 
     const dispatch = useDispatch();
@@ -19,23 +19,36 @@ const Product = ({ prod }) => {
         //console.log("addToCartHandler item=",item)
         dispatch(addToCart(item))
       }
-    
-      const removeFromCartHandler = (item) => {
-        dispatch(removeFromCart(item))
-      }
 
-    const isItemInCart = (id) => {
-        return cartItems.some((item) => item._id === id)
+    const handleIncrementItemQty = (item) => {
+        //console.log("handleIncrementItemQty");
+        //addToCart increases qty of item if already in cart
+        dispatch(addToCart(item));
+    };
+    
+    const handleReduceItemQty = (item) => {
+        //console.log("handleReduceItemQty item=",item.qty);
+        if (item.qty === 1) {
+          //console.log("item.qty is 1 so removing from cart");
+          dispatch(removeFromCart(item));
+        } else if (item.qty > 1) {
+          dispatch(reduceItemQty(item));
+        }
+    };
+
+    const getItemObjFromCart = (id) => {
+        const prodInCart = cartItems.find((item) => item._id === id)
+        return prodInCart     
     }
 
     useEffect(() => {
-        const itemInCart = isItemInCart(prod._id)
+        const prodObj = getItemObjFromCart(prod._id)
         const customName = `${prod.name} ${prod.quantity}${prod.quantityUnit}`
-        setItemCount(itemInCart)
+        setItemCartObj(prodObj)
         setCustomName(customName)
-    },[itemCount, cartItems])
+    },[cartItems])
      
-  return (
+    return (
       <View style={styles.productContainer}>
         <View style={styles.imageContainer}>
           <Image source={{ uri: prod.image.replace(/localhost/g, `${REST_API_SERVER}`) }} style={styles.image} />
@@ -56,23 +69,33 @@ const Product = ({ prod }) => {
             prod.offerPrice === -1 && 
             <Text style={styles.offerPrice}>₹{prod.mrpPrice}</Text>
           }
-          
-          {itemCount > 0 && (
-            <TouchableOpacity 
-            style={styles.removeButton} 
-            onPress={()=>removeFromCartHandler(prod)}
-          >
-            <Text style={styles.removeButtonLabel}>Remove from cart</Text>
-          </TouchableOpacity>
-          )}
 
-          {itemCount == 0 && (
-          <TouchableOpacity 
-            style={styles.addButton} 
-            onPress={()=>addToCartHandler(prod)}
-          >
-            <Text style={styles.addButtonLabel}>Add to cart</Text>
-          </TouchableOpacity>
+
+        {itemCartObj === undefined || itemCartObj.qty == 0 ? (
+            <TouchableOpacity
+              style={styles.addButton}
+              onPress={() => addToCartHandler(prod)}
+            >
+              <Text style={styles.addButtonLabel}>Add +</Text>
+            </TouchableOpacity>
+          ) : (
+            <View style={styles.adjustQtyContainer}>
+              <TouchableOpacity
+                style={styles.signContainer}
+                onPress={() => handleReduceItemQty(itemCartObj)}
+              >
+                <Text style={styles.addButtonLabel}>-</Text>
+              </TouchableOpacity>
+
+              <Text style={styles.qtyText}>{itemCartObj.qty}</Text>
+
+              <TouchableOpacity
+                style={styles.signContainer}
+                onPress={() => handleIncrementItemQty(itemCartObj)}
+              >
+                <Text style={styles.addButtonLabel}>+</Text>
+              </TouchableOpacity>
+            </View>
           )}
 
         </View>
@@ -83,9 +106,6 @@ const Product = ({ prod }) => {
 export default Product
 
 const styles = StyleSheet.create({
-    container: {
-      marginBottom: 150,
-    },
     productContainer: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -162,4 +182,23 @@ const styles = StyleSheet.create({
       color: COLORS.white,
       fontWeight: 'bold',
     },
+    adjustQtyContainer: {
+        alignSelf: "flex-end",
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+        width: 100,
+      },
+      signContainer: {
+        borderColor: COLORS.silver,
+        borderWidth: 0.5,
+        borderRadius: 12,
+        padding: 5,
+        paddingHorizontal: 10,
+      },
+      qtyText: {
+        fontSize: 16,
+        fontWeight: "bold",
+        alignSelf: "center",
+      },
+
   });
