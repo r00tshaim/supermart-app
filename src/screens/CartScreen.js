@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { addToCart, reduceItemQty, removeFromCart } from "../redux/cartSlice";
 import Header from "../common/Header";
 import { Entypo } from "@expo/vector-icons";
+import {REST_API_SERVER} from "@env"
 
 const CartScreen = () => {
   const dispatch = useDispatch();
@@ -82,7 +83,7 @@ const CartScreen = () => {
     return (
       <View style={styles.productContainer}>
         <View style={styles.imageContainer}>
-          <Image source={{ uri: item.image }} style={styles.image} />
+          <Image source={{ uri: item.image.replace(/localhost/g, `${REST_API_SERVER}`) }} style={styles.image} />
         </View>
         <View style={styles.productDetailsContainer}>
           <Text style={styles.name}>{item.name}</Text>
