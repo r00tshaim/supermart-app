@@ -101,7 +101,7 @@ export const categoreyOffers = [
 
 export const ordersLists = [
     {
-      id: 1000,
+      _id: 1000,
       userId: 100,
       datePlaced: "12/12/2022",
       dateDelivered: "13/12/2022",
@@ -110,7 +110,7 @@ export const ordersLists = [
       payment: "cod",
       orderItems: [
         {
-          id: 1,
+          _id: 1,
           categoryId: 1,
           name: "Apples",
           price: 9.99,
@@ -119,7 +119,7 @@ export const ordersLists = [
           quantityUnit: "Kg"
         },
         {
-          id: 2,
+          _id: 2,
           categoryId: 1,
           name: "Milk",
           price: 19.99,
@@ -128,7 +128,7 @@ export const ordersLists = [
           quantityUnit: "L"
         },
         {
-          id: 3,
+          _id: 3,
           categoryId: 2,
           name: "Paper Towels",
           price: 14.99,
@@ -141,7 +141,7 @@ export const ordersLists = [
 
 
     {
-        id: 2000,
+        _id: 2000,
         userId: 100,
         datePlaced: "12/12/2023",
         dateDelivered: "",
@@ -150,7 +150,7 @@ export const ordersLists = [
         payment: "cod",
         orderItems: [
           {
-            id: 1,
+            _id: 1,
             categoryId: 1,
             name: "Apples",
             price: 9.99,
@@ -159,7 +159,7 @@ export const ordersLists = [
             quantityUnit: "Kg"
           },
           {
-            id: 2,
+            _id: 2,
             categoryId: 1,
             name: "Milk",
             price: 19.99,
@@ -168,7 +168,7 @@ export const ordersLists = [
             quantityUnit: "L"
           },
           {
-            id: 3,
+            _id: 3,
             categoryId: 2,
             name: "Paper Towels",
             price: 14.99,
@@ -181,7 +181,7 @@ export const ordersLists = [
 
 
       {
-        id: 3000,
+        _id: 3000,
         userId: 100,
         datePlaced: "12/12/2023",
         dateDelivered: "",
@@ -190,7 +190,7 @@ export const ordersLists = [
         payment: "cod",
         orderItems: [
           {
-            id: 1,
+            _id: 1,
             categoryId: 1,
             name: "Apples",
             price: 9.99,
@@ -199,7 +199,7 @@ export const ordersLists = [
             quantityUnit: "Kg"
           },
           {
-            id: 2,
+            _id: 2,
             categoryId: 1,
             name: "Milk",
             price: 19.99,
@@ -208,7 +208,7 @@ export const ordersLists = [
             quantityUnit: "L"
           },
           {
-            id: 3,
+            _id: 3,
             categoryId: 2,
             name: "Paper Towels",
             price: 14.99,
