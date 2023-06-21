@@ -11,6 +11,8 @@ import ProductsScreen from "../src/screens/ProductsScreen";
 import CartBottomTab from "../src/components/CartBottomTab";
 import CartScreen from "../src/screens/CartScreen";
 import SplashScreen from "../src/screens/SplashScreen";
+import LoginScreen from "../src/screens/LoginScreen";
+import OTPScreen from "../src/screens/OTPScreen";
 
 const Stack = createStackNavigator();
 
@@ -25,6 +27,22 @@ const MainNavigation = () => {
                 headerShown: false 
             }}
             component={SplashScreen}
+        />
+
+        <Stack.Screen
+            name="LoginScreen"
+            options={{ 
+                headerShown: false 
+            }}
+            component={LoginScreen}
+        />
+
+        <Stack.Screen
+            name="OTPScreen"
+            options={{ 
+                headerShown: false 
+            }}
+            component={OTPScreen}
         />
 
         <Stack.Screen

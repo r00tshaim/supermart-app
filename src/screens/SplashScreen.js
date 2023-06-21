@@ -11,7 +11,7 @@ const SplashScreen = () => {
   useEffect(() => {
 
     setTimeout(() => {
-      navigation.push('Tabs')
+      navigation.push('LoginScreen')
     },3000)
 
   },[])
