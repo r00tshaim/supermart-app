@@ -16,6 +16,8 @@ import { addToCart, reduceItemQty, removeFromCart } from "../redux/cartSlice";
 import Header from "../common/Header";
 import { Entypo } from "@expo/vector-icons";
 import {REST_API_SERVER} from "@env"
+import axiosClient from "../axios/axiosClient";
+import { emptyCart } from "../redux/cartSlice";
 
 const CartScreen = () => {
   const dispatch = useDispatch();
@@ -70,8 +72,50 @@ const CartScreen = () => {
     }
   };
 
-  const handleCheckout = () => {
+  const createOrder = async (orderObj) => {
+    try{
+      const data = await axiosClient.post(`/v1/orders`, orderObj);
+      return data.data
+    }catch(err) {
+      console.log(`error while placing order message=${err.message} code=${err.code}`)
+    }
+  }
+
+  //gets the format
+  //[{"productId": "6485797a2323dd63d0fe2413", "qty": 1}, {"productId": "6485797c2323dd63d0fe241c", "qty": 2}]
+  const getCartItemsList = (cartItems) => {
+    let cartItemsList = [];
+    cartItems.forEach(item => {
+        cartItemsList.push({
+            productId: item._id,
+            qty: item.qty,
+        });
+    });
+    return cartItemsList;
+  }
+
+  const handleCheckout = async () => {
     console.log("checkout pressed");
+
+    const cartItemsTemp = getCartItemsList(cartItems);
+    //console.log("cartItemsTemp=", cartItemsTemp)
+    const order = {
+      orderItems: cartItemsTemp,
+      orderTotal: totalAmount,
+      savedTotal: totalSaved,
+      deliveryAddress: "Mumbai, Maharashtra",        //need to revisit this once delivery address feature is done
+      paymentMethod: "cod"                          //need to revisit this once payment feature is done
+    }
+
+    const newOrder = await createOrder(order)
+
+    if(newOrder.success === true) {
+      console.log("newOrder=", newOrder)
+      dispatch(emptyCart());
+    } else {
+      //something went wrong order not created
+    }
+    
   };
 
   const handleTotalAndSavedContainerPress = () => {
