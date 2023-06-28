@@ -61,8 +61,14 @@ const cartSlice = createSlice({
             state.totalItems = state.totalItems - 1;
             console.log(`reduceItemQty() CART STATE UPDATED\nTotal items=${state.totalItems}\nTotal unique items=${state.totalUniqueItems}\nqty reduced for item=${JSON.stringify(itemData)}\nqty=${itemData.qty}`);
         },
+        emptyCart: (state, action) => {
+            state.data = [];
+            state.totalItems = 0;
+            state.totalUniqueItems = 0;
+            console.log(`emptyCart() CART STATE UPDATED\nTotal items=${state.totalItems}\nTotal unique items=${state.totalUniqueItems}`);
+        }
     },
 });
 
-export const {addToCart, removeFromCart, reduceItemQty} = cartSlice.actions;
+export const {addToCart, removeFromCart, reduceItemQty, emptyCart} = cartSlice.actions;
 export default cartSlice.reducer;

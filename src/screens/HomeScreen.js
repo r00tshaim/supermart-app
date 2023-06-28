@@ -46,9 +46,9 @@ const HomeScreen = ({navigation}) => {
         try {
             const data = await axiosClient.get("/v1/products")
             dispatch(setProductsInventory(data.data.products))
-            dispatch(setBrandsInventory(data.data.brands))
+            //dispatch(setBrandsInventory(data.data.brands))
             setProductsList(data.data.products)
-            setBrandsList(data.data.brands)
+            //setBrandsList(data.data.brands)
         } catch(err) { 
             console.log("Get Products failed")
         }
