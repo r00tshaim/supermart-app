@@ -2,13 +2,23 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 import { COLORS } from "../constants/colors";
 import { ORDER_STATE_COLOR } from "../constants/order";
+import {REST_API_SERVER} from "@env"
 
 const Order = ({ item }) => {
     item = item.item
     const itemsInOrder = item.orderItems;
-    const orderState = item.state;
+    const orderState = item.status;
     const orderStateColor = ORDER_STATE_COLOR[orderState];
     //console.log("item=",item)
+
+    const formatDate = (date) => {
+      const dateObj = new Date(date);
+      const formattedDate = dateObj.toLocaleDateString();
+      const formattedTime = dateObj.toLocaleTimeString();
+      const result = `${formattedDate}  ${formattedTime}`
+      return result;
+    }
+
     return (
       <View style={styles.card} key={item._id}>
         <View style={styles.orderInfoContainer}>
@@ -24,37 +34,49 @@ const Order = ({ item }) => {
                   justifyContent: "center",
                 }}
               >
-                <Text>{orderState.toLowerCase()}</Text>
+                <Text>{orderState}</Text>
               </View>
             </View>
-            <Text style={{ fontWeight: "600" }}>Date: {item.datePlaced}</Text>
+            <Text style={{ fontWeight: "600" }}>Date: {formatDate(item.placedAt)}</Text>
           </View>
           <View style={{ alignItems: "flex-end" }}>
             <Text>Order Total {`(${itemsInOrder.length} items)`}</Text>
             <Text style={{ fontSize: 18, fontWeight: "600" }}>
-              ₹{item.orderTotal} {`(${item.payment})`}
+              ₹{item.orderTotal} {`(${item.paymentMethod})`}
             </Text>
           </View>
         </View>
         <View style={styles.productList}>
           {itemsInOrder.slice(0, 2).map((product) => (
-            <View style={{ flexDirection: "row", paddingBottom: 8 }}>
+            <View style={{flexDirection: "row", marginBottom: 8}}>
               <Image
-                source={{ uri: product.image }}
-                style={{ height: 35, width: 35 }}
+                source={{ uri: product.productId.image.replace(/localhost/g, `${REST_API_SERVER}`) }}
+                style={{ height: 60, width: 60 }}
               />
+
               <Text
-                key={product.id}
-                style={{ paddingLeft: 10, alignSelf: "center" }}
+                key={product.productId._id}
+                style={{ paddingLeft: 10, alignSelf: "center", fontSize: 15 }}
               >
-                {product.name} {product.quantity}{product.quantityUnit}
+                {product.productId.name} {product.productId.quantity}{product.productId.quantityUnit}
               </Text>
             </View>
+            
           ))}
+          </View>
+
+          <View style={{marginTop:8, marginBottom: 10, marginHorizontal: 10, flexDirection: 'row', alignItems: 'center'}}>
           {itemsInOrder.length > 2 && (
-            <Text>+{itemsInOrder.length - 2} more</Text>
+            <>
+              <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+              <View>
+                <Text style={{width: 90, textAlign: 'center'}}>+{itemsInOrder.length - 2} more</Text>
+              </View>
+              <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+            </>
           )}
         </View>
+
         <View style={styles.buttons}>
           <TouchableOpacity
             onPress={() => {}}
@@ -103,7 +125,7 @@ const styles = StyleSheet.create({
     },
     productList: {
       marginTop: 10,
-      marginHorizontal: 10,
+      marginHorizontal: 10, 
     },
     buttons: {
       flexDirection: "row",
