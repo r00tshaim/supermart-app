@@ -8,10 +8,10 @@ export const ORDER_STATE = {
 }
 
 export const ORDER_STATE_COLOR = {
-    PROCESSING: "#f0ad4e",
+    REJECTED: "#f0ad4e",
     PLACED: "#0275d8",
     CONFIRMED: "#5bc0de",
-    OUT_FOR_DELIVERY: "#6194eb",
+    DISPATCHED: "#6194eb",
     DELIVERED: "#5cb85c",
     CANCELLED: "#d9534f",
 }
