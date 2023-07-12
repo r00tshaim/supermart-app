@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
+  KeyboardAvoidingView,
+  Platform
 } from "react-native";
 import { ICONS } from "../constants/icons";
 
@@ -49,6 +51,10 @@ const LoginScreen = () => {
   isMobileNoValid = mobileNumber.length === 10;
 
   return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.keyboardAvodingView}
+    >
     <View style={styles.container}>
       <Image source={ICONS.splashScreenLogo} style={styles.logo} />
       <Text style={styles.text}>Login or Sign Up</Text>
@@ -71,10 +77,14 @@ const LoginScreen = () => {
         <Text style={styles.buttonText}>Send OTP</Text>
       </TouchableOpacity>
     </View>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
+  keyboardAvodingView: {
+    flex: 1
+  },
   container: {
     flex: 1,
     alignItems: "center",

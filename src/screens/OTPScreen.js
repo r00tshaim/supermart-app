@@ -1,12 +1,20 @@
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform } from "react-native";
 import React, {useState} from "react";
 import { ICONS } from "../constants/icons";
 import axiosClient from "../axios/axiosClient";
+import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../redux/userSlice";
 
 const OTPScreen = ({route}) => {
   const mobileNo = route.params.mobileNumber;
   const [otp, setOtp] = useState(new Array(6).fill(''));
   const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const handleChange = (text, index) => {
     let newOtp = [...otp];
@@ -30,7 +38,25 @@ const OTPScreen = ({route}) => {
     try {
       console.log("otp=", otp.join(''))
       const data = await axiosClient.get(`/v1/auth/verifyotp/${mobileNo}/${otp}`);
-      console.log("data=",data.data)
+      const userExists = data.data.userExists;
+      const userInfo = data.data.userInfo;
+      const token = data.data.token;
+      if(userExists === true){
+        console.log("userExists=",userExists)
+      
+        dispatch(loginSuccess({userInfo, token}));
+
+        await AsyncStorage.setItem('userInfo',JSON.stringify(userInfo));
+        await AsyncStorage.setItem('token',token);
+
+        navigation.replace('Tabs');
+        //return true;
+      } else {
+        console.log("userExists does not exists")
+
+        navigation.replace('RegisterScreen');
+        //return false;
+      }
     } catch (err) {
       console.log("error=", err);
     }
@@ -52,6 +78,10 @@ const OTPScreen = ({route}) => {
   isOtpValid = otp.every(item => item !== '' && !isNaN(item));
 
   return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.keyboardAvodingView}
+    >
     <View style={styles.container}>
       <Image source={ICONS.splashScreenLogo} style={styles.logo} />
       <Text style={styles.text}>Enter OTP</Text>
@@ -81,10 +111,14 @@ const OTPScreen = ({route}) => {
         <Text style={styles.buttonText}>Verify OTP</Text>
       </TouchableOpacity>
     </View>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
+  keyboardAvodingView: {
+    flex: 1
+  },
   container: {
     flex: 1,
     alignItems: "center",

@@ -13,6 +13,7 @@ import CartScreen from "../src/screens/CartScreen";
 import SplashScreen from "../src/screens/SplashScreen";
 import LoginScreen from "../src/screens/LoginScreen";
 import OTPScreen from "../src/screens/OTPScreen";
+import RegisterScreen from "../src/screens/RegisterScreen";
 
 const Stack = createStackNavigator();
 
@@ -71,6 +72,14 @@ const MainNavigation = () => {
                 )
               })}
         />
+
+        <Stack.Screen
+            name="RegisterScreen"
+            options={{ 
+                headerShown: false 
+            }}
+            component={RegisterScreen}
+          />
 
         <Stack.Screen
             name="Tabs"

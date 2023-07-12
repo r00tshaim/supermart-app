@@ -15,6 +15,7 @@ import { categoreyOffers } from '../db';
 import axiosClient from '../axios/axiosClient';
 import { setCategoriesInventory, setProductsInventory, setBrandsInventory } from '../redux/inventorySlice';
 import { useDispatch } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = ({navigation}) => {
     const [categoreyOffersList, setCategoreyOffersList] = useState([]);
@@ -68,6 +69,13 @@ const HomeScreen = ({navigation}) => {
 
     useEffect(() => {
 
+        const test = async () => {
+            const userInfo = await AsyncStorage.getItem('userInfo')
+            const token = await AsyncStorage.getItem('token')
+            console.log(`HomeScreen userInfo=${userInfo}  token=${token}`)
+        }
+
+        test();
         if(isLoading) {
             getProducts();
             getCategories();
