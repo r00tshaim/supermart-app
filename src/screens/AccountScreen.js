@@ -9,11 +9,26 @@ import {
   StatusBar
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import React from "react";
+import { useSelector } from "react-redux";
+import { useNavigation } from '@react-navigation/native'
 
 import { COLORS } from "../constants/colors";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AccountScreen = () => {
+  const userInfo = useSelector(state => state.user.userInfo)
+  const navigation = useNavigation();
+
+  const handleLogoutAsync = async () => {
+    await AsyncStorage.removeItem('token')
+    await AsyncStorage.removeItem('userInfo')
+    navigation.navigate('SplashScreen')
+  }
+
+  const handleLogout = () => {
+    handleLogoutAsync();
+  }
+
   return (
     <SafeAreaView style={styles.AndroidSafeArea}>
       <View style={styles.container}>
@@ -24,8 +39,8 @@ const AccountScreen = () => {
               style={styles.profileImage}
             />
             <View style={styles.profileTextContainer}>
-              <Text style={styles.name}>John Doe</Text>
-              <Text style={styles.mobileNumber}>Mobile: 1234567890</Text>
+              <Text style={styles.name}>{userInfo ? userInfo.name : ""}</Text>
+              <Text style={styles.mobileNumber}>Mobile: {userInfo ? userInfo.mobile : ""}</Text>
             </View>
           </View>
         </View>
@@ -46,7 +61,7 @@ const AccountScreen = () => {
             <Text style={styles.tabText}>Saved Delivery Address</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.tab}>
+          <TouchableOpacity style={styles.tab} onPress={handleLogout}>
             <FontAwesome name="sign-out" size={24} color="#555555" />
             <Text style={styles.tabText}>Sign Out</Text>
           </TouchableOpacity>
