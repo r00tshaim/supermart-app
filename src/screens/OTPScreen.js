@@ -4,6 +4,7 @@ import { ICONS } from "../constants/icons";
 import axiosClient from "../axios/axiosClient";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useToast } from "react-native-toast-notifications";
 
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../redux/userSlice";
@@ -15,6 +16,7 @@ const OTPScreen = ({route}) => {
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const toast = useToast();
 
   const handleChange = (text, index) => {
     let newOtp = [...otp];
@@ -49,16 +51,32 @@ const OTPScreen = ({route}) => {
         await AsyncStorage.setItem('userInfo',JSON.stringify(userInfo));
         await AsyncStorage.setItem('token',token);
 
-        navigation.replace('Tabs');
-        //return true;
-      } else {
-        console.log("userExists does not exists")
+        toast.show("OTP verified successfully", {
+          type: "success",// normal | success | warning | danger | custom",
+          placement: "bottom",// | top",
+          duration: 4000,
+          offset: 30,
+          animationType: "slide-in"// | zoom-in",
+        });
 
+        navigation.replace('Tabs');
+        
+      } else {
+        console.log("userExists does not exists, needs to register")
         navigation.replace('RegisterScreen');
-        //return false;
       }
+
     } catch (err) {
-      console.log("error=", err);
+      console.log("Error while verifying OTP, please try again=", err);
+
+      toast.show("Error while verifying OTP, please try again", {
+        type: "danger",// normal | success | warning | danger | custom",
+        placement: "bottom",// | top",
+        duration: 4000,
+        offset: 30,
+        animationType: "slide-in"// | zoom-in",
+      });
+
     }
   };
 

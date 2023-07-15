@@ -25,6 +25,7 @@
     "react-native": "0.71.6",
     "react-native-dotenv": "^3.4.8",
     "react-native-image-slider-box": "github:megamaxs1234/react-native-image-slider-box",
+    "react-native-toast-notifications": "^3.3.1",
     "react-redux": "^8.0.5"
   },
   "devDependencies": {

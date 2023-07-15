@@ -10,6 +10,7 @@ import {
   Platform
 } from "react-native";
 import { ICONS } from "../constants/icons";
+import { useToast } from "react-native-toast-notifications";
 
 import axiosClient from "../axios/axiosClient";
 import { useNavigation } from "@react-navigation/native";
@@ -19,14 +20,25 @@ const LoginScreen = () => {
   const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
+  const toast = useToast();
 
   const sendOTP = async () => {
     try {
       console.log("mobilenumber=", mobileNumber);
-      const mobileNo = "+91" + mobileNumber;
+      const mobileNo = mobileNumber;
       const data = await axiosClient.get(`/v1/auth/sendotp/${mobileNo}`);
+      navigation.push("OTPScreen", { mobileNumber: mobileNumber });
     } catch (err) {
-      console.log("error=", err);
+      console.log("Error while requesting for OTP=", err);
+
+      toast.show("Error while requesting OTP, please try again", {
+        type: "danger",// normal | success | warning | danger | custom",
+        placement: "bottom",// | top",
+        duration: 4000,
+        offset: 30,
+        animationType: "slide-in"// | zoom-in",
+      });
+
     }
   };
 
@@ -45,7 +57,6 @@ const LoginScreen = () => {
     setLoading(true);
     sendOTP();
     setLoading(false);
-    navigation.push("OTPScreen", { mobileNumber: mobileNumber });
   };
 
   isMobileNoValid = mobileNumber.length === 10;
