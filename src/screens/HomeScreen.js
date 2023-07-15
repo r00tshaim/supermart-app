@@ -1,6 +1,7 @@
 import { Text, View, TextInput, SafeAreaView, StyleSheet,Platform, StatusBar, ScrollView, TouchableOpacity } from 'react-native';
 import { EvilIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
+import { useToast } from "react-native-toast-notifications";
 
 import OffersSlider from '../components/Carousel';
 import Categories from '../components/Categories';
@@ -26,6 +27,7 @@ const HomeScreen = ({navigation}) => {
     const [isLoading, setIsLoading] = useState(true);
 
     const dispatch = useDispatch();
+    const toast = useToast();
 
     const handleCategorySelect = (categoryId) => {
         const selectedCategory = categoriesList.find((cat) => cat._id === categoryId);
@@ -52,6 +54,13 @@ const HomeScreen = ({navigation}) => {
             //setBrandsList(data.data.brands)
         } catch(err) { 
             console.log("Get Products failed")
+            toast.show( "Unable to fetch products, please try again", {
+                type: "danger",// normal | success | warning | danger | custom",
+                placement: "bottom",// | top",
+                duration: 4000,
+                offset: 30,
+                animationType: "slide-in"// | zoom-in",
+            });
         }
     }
 
@@ -62,6 +71,13 @@ const HomeScreen = ({navigation}) => {
             setCategoriesList(data.data.categories);
         } catch(err) { 
             console.log("Get Categories failed")
+            toast.show( "Unable to fetch categories, please try again", {
+                type: "danger",// normal | success | warning | danger | custom",
+                placement: "bottom",// | top",
+                duration: 4000,
+                offset: 30,
+                animationType: "slide-in"// | zoom-in",
+            });
         }
     }
 
