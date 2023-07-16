@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.19.0",
+    "@react-native-community/netinfo": "^9.4.1",
     "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
@@ -25,7 +26,7 @@
     "react-native": "0.71.6",
     "react-native-dotenv": "^3.4.8",
     "react-native-image-slider-box": "github:megamaxs1234/react-native-image-slider-box",
-    "react-native-toast-notifications": "^3.3.1",
+    "react-native-toast-message": "^2.1.6",
     "react-redux": "^8.0.5"
   },
   "devDependencies": {
