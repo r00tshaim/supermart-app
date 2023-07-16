@@ -10,7 +10,7 @@ import {
   Platform
 } from "react-native";
 import { ICONS } from "../constants/icons";
-import { useToast } from "react-native-toast-notifications";
+import Toast from 'react-native-toast-message';
 
 import axiosClient from "../axios/axiosClient";
 import { useNavigation } from "@react-navigation/native";
@@ -20,7 +20,6 @@ const LoginScreen = () => {
   const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
-  const toast = useToast();
 
   const sendOTP = async () => {
     try {
@@ -31,12 +30,11 @@ const LoginScreen = () => {
     } catch (err) {
       console.log("Error while requesting for OTP=", err);
 
-      toast.show("Error while requesting OTP, please try again", {
-        type: "danger",// normal | success | warning | danger | custom",
-        placement: "bottom",// | top",
-        duration: 4000,
-        offset: 30,
-        animationType: "slide-in"// | zoom-in",
+      Toast.show({
+        type: "error",// success | error | info,
+        text1: "Error while requesting OTP",
+        text2: "Please try again",
+        position: "bottom",// | top",
       });
 
     }

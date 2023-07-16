@@ -6,27 +6,36 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch } from "react-redux";
-import { useToast } from "react-native-toast-notifications";
+import Toast from 'react-native-toast-message';
+import NetInfo from "@react-native-community/netinfo";
 
 import { ICONS } from "../constants/icons";
 import { COLORS } from "../constants/colors";
 import { loginSuccess } from "../redux/userSlice";
 
 const SplashScreen = () => {
+  const [connected, setConnected] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const toast = useToast();
 
   //refer https://stackoverflow.com/questions/52805879/re-render-component-when-navigating-the-stack-with-react-navigation
   const isFocused = useIsFocused();
 
   useEffect(() => {
     if (isFocused) {
+      const isNetworkAvailable = async () => {
+        console.log("isNetworkAvailable")
+        const response = await NetInfo.fetch();
+        console.log("response=",response.isConnected)
+        setConnected(response.isConnected)
+        //return response.isConnected;
+      }
+
       const fetchData = async () => {
         try {
           // Fetch the token and userInfo from AsyncStorage
@@ -46,12 +55,11 @@ const SplashScreen = () => {
         } catch (err) {
           console.log(`erorr while fetching token and userInfo from AsyncStorage`)
 
-          toast.show( "Unable to fetch data, please try again", {
-            type: "danger",// normal | success | warning | danger | custom",
-            placement: "bottom",// | top",
-            duration: 4000,
-            offset: 30,
-            animationType: "slide-in"// | zoom-in",
+          Toast.show({
+            type: "error",// success | error | info",
+            text1 : "Unable to fetch data",
+            text2: "Please try again",
+            position: "bottom",//bottom | top",
           });
 
         }
@@ -63,11 +71,24 @@ const SplashScreen = () => {
       // clearAsyncStorage();
 
       setTimeout(() => {
-        fetchData();
+        isNetworkAvailable();
+        if(connected){
+          Toast.hide();
+          fetchData();
+        } else {
+          console.log(`No Internet connection`);
+          Toast.show({
+            type: "error",// success | error | info",
+            text1 : "No Internet Connection",
+            text2: "please try again",
+            position: "bottom",//bottom | top",
+          });
+
+        }
         //navigation.navigate(userLoggedIn ? 'Tabs' : 'LoginScreen')
       }, 3000);
     }
-  }, [isFocused]);
+  }, [isFocused, connected]);
 
   return (
     <SafeAreaView style={styles.topContainer}>
