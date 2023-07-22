@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {REST_API_SERVER, PORT, BASE} from "@env"
+import {store} from "../redux/store.js"
 
 const axiosClient = axios.create();
 
@@ -17,5 +18,18 @@ axiosClient.defaults.headers = {
 axiosClient.defaults.timeout = 2000;
 
 axiosClient.defaults.withCredentials = true;
+
+
+//axios interceptor - to add any headers before sending req
+axiosClient.interceptors.request.use( async (request) => {
+  const token = store.getState().user.token;
+  request.headers.Authorization =  `Bearer ${token}`;
+  //console.log(`jwtInterceptor request header=${request.headers}`)
+  return request;
+}, (error) => {
+  //console.log(`error in axios interceptor error=${error}`)
+  // Handle request errors here
+  return Promise.reject(error);
+});
 
 export default axiosClient;
