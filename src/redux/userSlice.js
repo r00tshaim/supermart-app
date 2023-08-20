@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const INITIAL_STATE_USER = {
     isLoggedIn: false,
     userInfo: null,
-    token: null
+    tokenInfo: null
 }
 
 // Slice
@@ -14,16 +14,16 @@ const userSlice = createSlice({
         loginSuccess: (state, action) => {
             state.isLoggedIn = true;
             state.userInfo = action.payload.userInfo;
-            state.token = action.payload.token;
+            state.tokenInfo = action.payload.tokenInfo;
             
-            console.log(`loginSuccess() USER STATE UPDATED\nUser logged in=${state.isLoggedIn}\nUser info=${state.userInfo}`);
+            console.log(`loginSuccess() USER STATE UPDATED\nUser logged in=${state.isLoggedIn}\nUser info=${state.userInfo}\nToken info=${state.tokenInfo}`);
         },
         logout: (state, action) => {
             state.isLoggedIn = false;
             state.userInfo = null;
-            state.token = null;
+            state.tokenInfo = null;
             
-            console.log(`logout() USER STATE UPDATED\nUser logged in=${state.isLoggedIn}\nUser data=${state.userInfo}`);
+            console.log(`logout() USER STATE UPDATED\nUser logged in=${state.isLoggedIn}\nUser info=${state.userInfo}`);
         },
     },
 });

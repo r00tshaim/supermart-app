@@ -13,13 +13,17 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch } from "react-redux";
 import Toast from 'react-native-toast-message';
 import NetInfo from "@react-native-community/netinfo";
+import axiosClient from '../axios/axiosClient';
 
 import { ICONS } from "../constants/icons";
 import { COLORS } from "../constants/colors";
 import { loginSuccess } from "../redux/userSlice";
 
+const LOGIN_SCREEN = "LoginScreen";
+const HOME_SCREEN = "Tabs";
+
 const SplashScreen = () => {
-  const [connected, setConnected] = useState(false);
+  const [connected, setConnected] = useState(false); 
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -36,22 +40,55 @@ const SplashScreen = () => {
         //return response.isConnected;
       }
 
+      const isTokenValid = (tokenInfo) => {
+        const currentTimestamp = Math.floor(Date.now() / 1000); // Get the current timestamp in seconds
+
+        // Check if the token has expired
+        if (tokenInfo.expiresAt < currentTimestamp) {
+          return false;
+        }  
+        // Check if the token is not yet valid (created in the future)
+        if (tokenInfo.createdAt > currentTimestamp) {
+          return false;
+        }    
+        // Token is valid if it is not expired and not created in the future
+        return true;
+      };
+      
+
       const fetchData = async () => {
         try {
           // Fetch the token and userInfo from AsyncStorage
-          const token = await AsyncStorage.getItem("token");
+          const tokenInfo = await AsyncStorage.getItem("tokenInfo");
           const userInfo = await AsyncStorage.getItem("userInfo");
 
-          console.log("token=", token);
-          console.log("userInfo=", userInfo);
+          console.log(`fethData tokenInfo=${tokenInfo} userInfo=${userInfo}`)
 
-          if (token && userInfo) {
-            // If token and userInfo exist, dispatch the loginSuccess action
-            dispatch(loginSuccess({ userInfo: JSON.parse(userInfo), token }));
+          if(!tokenInfo || !userInfo) {
+            navigation.replace(LOGIN_SCREEN);
+            return;
           }
 
-          // Navigate to the appropriate screen based on user authentication
-          navigation.navigate(token && userInfo ? "Tabs" : "LoginScreen");
+          if(!isTokenValid(JSON.parse(tokenInfo))) {
+              console.log(`token expired`)
+              Toast.show({
+                type: "error",// success | error | info",
+                text1 : "Session expired",
+                text2: "Please login again",
+                position: "bottom",//bottom | top",
+              });
+            
+              navigation.replace(LOGIN_SCREEN);
+              return;
+          } else {
+            console.log(`token valid`)
+            // If token and userInfo exist, dispatch the loginSuccess action
+            dispatch(loginSuccess({ userInfo: JSON.parse(userInfo), tokenInfo: JSON.parse(tokenInfo) }));
+            
+            navigation.replace(HOME_SCREEN);
+            return;
+          }
+
         } catch (err) {
           console.log(`erorr while fetching token and userInfo from AsyncStorage`)
 
@@ -62,13 +99,15 @@ const SplashScreen = () => {
             position: "bottom",//bottom | top",
           });
 
+          navigation.replace(LOGIN_SCREEN);
+          return;
         }
       };
 
       const clearAsyncStorage = async () => {
         AsyncStorage.clear();
       };
-      // clearAsyncStorage();
+      //clearAsyncStorage();
 
       setTimeout(() => {
         isNetworkAvailable();
@@ -85,7 +124,6 @@ const SplashScreen = () => {
           });
 
         }
-        //navigation.navigate(userLoggedIn ? 'Tabs' : 'LoginScreen')
       }, 3000);
     }
   }, [isFocused, connected]);

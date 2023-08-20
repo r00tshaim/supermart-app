@@ -86,11 +86,11 @@ const HomeScreen = ({navigation}) => {
 
         const test = async () => {
             const userInfo = await AsyncStorage.getItem('userInfo')
-            const token = await AsyncStorage.getItem('token')
-            console.log(`HomeScreen userInfo=${userInfo}  token=${token}`)
+            const token = await AsyncStorage.getItem('tokenInfo')
+            console.log(`HomeScreen userInfo=${userInfo}  tokenInfo=${token}`)
         }
 
-        test();
+        //test();
         if(isLoading) {
             getProducts();
             getCategories();

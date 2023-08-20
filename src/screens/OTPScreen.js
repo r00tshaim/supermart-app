@@ -39,16 +39,21 @@ const OTPScreen = ({route}) => {
     try {
       console.log("otp=", otp.join(''))
       const data = await axiosClient.get(`/v1/auth/verifyotp/${mobileNo}/${otp}`);
-      const userExists = data.data.userExists;
+      //console.log(`data=${JSON.stringify(data.data)}`)
+      const newUser = data.data.newUser;
       const userInfo = data.data.userInfo;
       const token = data.data.token;
-      if(userExists === true){
-        console.log("userExists=",userExists)
+      const createdAt = data.data.created;
+      const expiresAt = data.data.expiresAt;
+      //console.log(`newUser=${newUser} token=${token} createdAt=${createdAt} expiresAt=${expiresAt}`)
+
+      const tokenInfo = {token, createdAt, expiresAt};
+      if(newUser === false){
       
-        dispatch(loginSuccess({userInfo, token}));
+        dispatch(loginSuccess({userInfo, tokenInfo}));
 
         await AsyncStorage.setItem('userInfo',JSON.stringify(userInfo));
-        await AsyncStorage.setItem('token',token);
+        await AsyncStorage.setItem('tokenInfo',JSON.stringify(tokenInfo));
 
         Toast.show({
           type: "success",// success | error | info,
