@@ -22,14 +22,18 @@ axiosClient.defaults.withCredentials = true;
 
 //axios interceptor - to add any headers before sending req
 axiosClient.interceptors.request.use( async (request) => {
-  const token = store.getState().user.token;
-  request.headers.Authorization =  `Bearer ${token}`;
+  const tokenInfo = store.getState().user.tokenInfo;
+  //console.log(`interceptor tokenInfo=${tokenInfo}`)
+  if(tokenInfo) {
+    const token = tokenInfo.token;
+    request.headers.Authorization =  `Bearer ${token}`;
+  } 
   //console.log(`jwtInterceptor request header=${request.headers}`)
   return request;
 }, (error) => {
-  //console.log(`error in axios interceptor error=${error}`)
+  console.log(`error in axios interceptor error=${error}`)
   // Handle request errors here
-  return Promise.reject(error);
+  return Promise.reject(`Interceptor Error - ${error}`);
 });
 
 export default axiosClient;
