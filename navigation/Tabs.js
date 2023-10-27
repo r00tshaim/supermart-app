@@ -1,6 +1,8 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image, Platform, StyleSheet } from 'react-native';
+import { Image, Platform, StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 import HomeScreen from '../src/screens/HomeScreen';
 import CartScreen from '../src/screens/CartScreen';
@@ -20,7 +22,10 @@ const Tabs = () => {
         <Tab.Navigator
             screenOptions={{
                 tabBarShowLabel: false,
-                headerShown: false,
+                //headerShown: false,
+                //headerStyle: {
+                //  backgroundColor :"yellow"
+                //},
                 tabBarStyle: {
                     position: 'absolute',
                     bottom: 25,
@@ -48,43 +53,84 @@ const Tabs = () => {
             <Tab.Screen
                 name="Home"
                 component={HomeScreen}
-                options={{
+                options={({ navigation }) => ({
+                    title:false,
+                    position: "absolute",
                     tabBarIcon: ({ focused }) => (
                         <Image
                             source={ICONS.home}
                             style={{ width: 25, height: 25, tintColor: focused ? COLORS.green : COLORS.silver }}
                         />
                     ),
-                }}
+                    headerStyle: {
+                        backgroundColor: COLORS.green
+                    },
+                    headerLeft: () => (
+                        <View style={styles.homeLeftHeader}>
+                            <Image
+                                source={ICONS.splashScreenLogo}
+                                style={{ width: 70, height: 60, paddingLeft: 10 }} />
+                            
+                            <Text style={{paddingLeft: 5, fontSize: 16}}>
+                                MHK Mart
+                            </Text>
+                            
+                        </View>
+                    ),
+                    headerRight: () => (
+                      <TouchableOpacity style={styles.rightHeader} onPress={() => navigation.navigate('CartScreen')}>
+                        <CartBottomTab isFocused={false} />
+                      </TouchableOpacity>
+                    )
+                })}
             />
             <Tab.Screen
                 name="Search"
                 component={SearchScreen}
-                options={{
+                options={({ navigation }) => ({
+                    headerStyle: {
+                        backgroundColor: COLORS.green
+                    },
                     tabBarIcon: ({ focused }) => (
                         <Image
                             source={ICONS.search}
                             style={{ width: 25, height: 25, tintColor: focused ? COLORS.green : COLORS.silver }}
                         />
                     ),
-                }}
+                    headerRight: () => (
+                        <TouchableOpacity style={styles.rightHeader} onPress={() => navigation.navigate('CartScreen')}>
+                          <CartBottomTab isFocused={false} />
+                        </TouchableOpacity>
+                    )
+                })}
             />
             <Tab.Screen
-                name="Orders"
+                name="My Orders"
                 component={OrdersScreen}
-                options={{
+                options={({ navigation }) => ({
+                    headerStyle: {
+                        backgroundColor: COLORS.green
+                    },
                     tabBarIcon: ({ focused }) => (
                         <Image
                             source={ICONS.orders}
                             style={{ width: 25, height: 25, tintColor: focused ? COLORS.green : COLORS.silver }}
                         />
                     ),
-                }}
+                    headerRight: () => (
+                        <TouchableOpacity style={styles.rightHeader} onPress={() => navigation.navigate('CartScreen')}>
+                          <CartBottomTab isFocused={false} />
+                        </TouchableOpacity>
+                    )
+                })}
             />
             <Tab.Screen
-                name="Account"
+                name="My Account"
                 component={AccountScreen}
                 options={{
+                    headerStyle: {
+                        backgroundColor: COLORS.green,
+                    },
                     tabBarIcon: ({ focused }) => (
                         <Image
                             source={ICONS.account}
@@ -98,6 +144,19 @@ const Tabs = () => {
 };
 
 const styles = StyleSheet.create({
+    leftHeader: {
+        paddingLeft: 10
+    },
+    rightHeader: {
+        paddingRight: 15,
+    },
+    homeLeftHeader: {
+        flexDirection: "row", 
+        alignItems: "center",
+        //borderColor: "red",       for debugging
+        //borderWidth: 1,
+        width: 300
+    }
 })
 
 export default Tabs;

@@ -56,7 +56,7 @@ const OrdersScreen = () => {
 
   return (
     <View style={styles.AndroidSafeArea}>
-      <Header title={"Your Orders"} />
+      {/*<Header title={"Your Orders"} />*/}
 
       <View>
         <Text style={{ padding: 10, fontSize: 18 }}>
@@ -66,7 +66,7 @@ const OrdersScreen = () => {
         <SafeAreaView>
           <FlatList
             data={previousOrders}
-            renderItem={(item) => <Order item={item} />}
+            renderItem={(item) => <Order item={item} key={item._id}/>}
             keyExtractor={(item) => item._id}
             contentContainerStyle={styles.listContainer}
           />

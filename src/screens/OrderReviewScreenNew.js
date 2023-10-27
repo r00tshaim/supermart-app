@@ -16,85 +16,50 @@ import { useEffect, useState } from "react";
 import { addToCart, reduceItemQty, removeFromCart } from "../redux/cartSlice";
 import Header from "../common/Header";
 import { Entypo } from "@expo/vector-icons";
-import {REST_API_SERVER} from "@env"
+import { REST_API_SERVER } from "@env";
 import axiosClient from "../axios/axiosClient";
 import { emptyCart } from "../redux/cartSlice";
 
-const CartScreen = () => {
+const OrderReviewScreenNew = ({route}) => {
+
+    const [cartItemsState, setcartItemsState] = useState(route.params.items);
+    const [totalAmount, setTotalAmount] = useState(route.params.orderTotal);
+    const [totalSaved, setTotalSaved] = useState(route.params.totalSaved);
+
+    const userInfo = useSelector(state => state.user.userInfo)
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
-  const cartItems = useSelector((state) => state.cart.data);
-  const cartUniqueItemsCount = useSelector(
-    (state) => state.cart.totalUniqueItems
-  );
-  const [cartItemsState, setcartItemsState] = useState([]);
-  const [totalAmount, setTotalAmount] = useState(0);
-  const [totalSaved, setTotalSaved] = useState(0);
-
-  const getTotal = (items) => {
-    let total = 0;
-    let youSaved = 0;
-    if (items === undefined || items.length === 0) {
-      setTotalAmount(total);
-      return;
-    }
-    items.map((item) => {
-      // -1 in offer price means offer is not there on this product
-      if (item.offerPrice !== -1) {
-        total = total + item.qty * item.offerPrice;
-        //no of qty for item * ( difference b/w actual price and offer price )
-        youSaved = youSaved + item.qty * (item.mrpPrice - item.offerPrice);
-      } else {
-        total = total + item.qty * item.mrpPrice;
-      }
-    });
-    setTotalAmount(total.toFixed(2));
-    setTotalSaved(youSaved.toFixed(2));
-  };
+ 
 
   useEffect(() => {
-    setcartItemsState(cartItems);
-    getTotal(cartItems);
-  }, [cartItems]);
+    
+  }, []);
 
-  const handleIncrementItemQty = (item) => {
-    //console.log("handleIncrementItemQty");
-    //addToCart increases qty of item if already in cart
-    dispatch(addToCart(item));
-  };
-
-  const handleReduceItemQty = (item) => {
-    //console.log("handleReduceItemQty");
-    if (item.qty === 1) {
-      //console.log("item.qty is 1 so removing from cart");
-      dispatch(removeFromCart(item));
-    } else if (item.qty > 1) {
-      dispatch(reduceItemQty(item));
-    }
-  };
 
   const createOrder = async (orderObj) => {
-    try{
+    try {
       const data = await axiosClient.post(`/v1/orders`, orderObj);
-      return data.data
-    }catch(err) {
-      console.log(`error while placing order message=${err.message} code=${err.code}`)
+      return data.data;
+    } catch (err) {
+      console.log(
+        `error while placing order message=${err.message} code=${err.code}`
+      );
     }
-  }
+  };
 
   //gets the format
   //[{"productId": "6485797a2323dd63d0fe2413", "qty": 1}, {"productId": "6485797c2323dd63d0fe241c", "qty": 2}]
   const getCartItemsList = (cartItems) => {
     let cartItemsList = [];
-    cartItems.forEach(item => {
-        cartItemsList.push({
-            productId: item._id,
-            qty: item.qty,
-        });
+    cartItems.forEach((item) => {
+      cartItemsList.push({
+        productId: item._id,
+        qty: item.qty,
+      });
     });
     return cartItemsList;
-  }
+  };
 
   const handleCheckout = async () => {
     console.log("checkout pressed");
@@ -105,38 +70,40 @@ const CartScreen = () => {
       orderItems: cartItemsTemp,
       orderTotal: totalAmount,
       savedTotal: totalSaved,
-      deliveryAddress: "Mumbai, Maharashtra",        //need to revisit this once delivery address feature is done
-      paymentMethod: "cod"                          //need to revisit this once payment feature is done
-    }
+      deliveryAddress: "Mumbai, Maharashtra", //need to revisit this once delivery address feature is done
+      paymentMethod: "cod", //need to revisit this once payment feature is done
+    };
 
-    console.log(`cartItems=${cartItems}`)
-    navigation.navigate('OrderReviewScreenNew', {deliveryAddress: "Parabda, Himmatnagar", items: cartItems, orderTotal: totalAmount, totalSaved: totalSaved})
-      
+    console.log(`cartItems=${cartItems}`);
+
     //const newOrder = await createOrder(order)
 
     //if(newOrder.success === true) {
     //  console.log("newOrder=", newOrder)
     //  dispatch(emptyCart());
     //} else {
-      //something went wrong order not created
+    //something went wrong order not created
     //}
-    
   };
 
   const handleTotalAndSavedContainerPress = () => {
-    console.log("total and saved container pressed")
-  }
-
+    console.log("total and saved container pressed");
+  };
 
   const renderProduct = ({ item }) => {
     return (
       <View style={styles.productContainer}>
         <View style={styles.imageContainer}>
-          <Image source={{ uri: item.image.replace(/localhost/g, `${REST_API_SERVER}`) }} style={styles.image} />
+          <Image
+            source={{
+              uri: item.image.replace(/localhost/g, `${REST_API_SERVER}`),
+            }}
+            style={styles.image}
+          />
         </View>
         <View style={styles.productDetailsContainer}>
           <Text style={styles.name}>{item.name}</Text>
-          <Text style={styles.description}>{item.description}</Text>
+          <Text style={styles.description}>{item.quantity} {item.quantityUnit}</Text>
 
           {
             //when offerPrice is not available, display only actual price of item
@@ -151,34 +118,11 @@ const CartScreen = () => {
               <Text style={styles.originalPrice}>₹{item.mrpPrice}</Text>
             </View>
           )}
-  
 
-          {item.qty === undefined || item.qty == 0 ? (
-            <TouchableOpacity
-              style={styles.addButton}
-              onPress={() => addToCartHandler(item)}
-            >
-              <Text style={styles.addButtonLabel}>Add +</Text>
-            </TouchableOpacity>
-          ) : (
-            <View style={styles.adjustQtyContainer}>
-              <TouchableOpacity
-                style={styles.signContainer}
-                onPress={() => handleReduceItemQty(item)}
-              >
-                <Text style={styles.addButtonLabel}>-</Text>
-              </TouchableOpacity>
+        </View>
 
-              <Text style={styles.qtyText}>{item.qty}</Text>
-
-              <TouchableOpacity
-                style={styles.signContainer}
-                onPress={() => handleIncrementItemQty(item)}
-              >
-                <Text style={styles.addButtonLabel}>+</Text>
-              </TouchableOpacity>
-            </View>
-          )}
+        <View style={{}}>
+            <Text>Qty: {item.qty}</Text>
         </View>
       </View>
     );
@@ -194,9 +138,9 @@ const CartScreen = () => {
     );
   } else {
     return (
-      <View style={{ flex: 1}}>
+      <View style={{ flex: 1 }}>
         <View style={styles.AndroidSafeArea}>
-          {/*<Header title={"Your Cart"} isBack={true} />  */}
+          <Header title={"Checkout"} isBack={true} />
 
           <View
             style={{
@@ -207,7 +151,7 @@ const CartScreen = () => {
               marginHorizontal: 17,
             }}
           >
-            <View style={{ alignSelf: "center" }}>
+            {/*<View style={{ alignSelf: "center" }}>
               <Text style={{ fontSize: 15, fontWeight: "bold" }}>
                 Cart Items: {cartUniqueItemsCount}
               </Text>
@@ -216,9 +160,17 @@ const CartScreen = () => {
               <Text style={{ fontSize: 20, fontWeight: "bold" }}>
                 Cart Total: {totalAmount}
               </Text>
-            </View>
+        </View>*/}
+
+        {/* Delivery Address */}
+        <View style={styles.deliveryAddressContainer}>
+            <Text style={styles.deliveryAddressTitle}>Delivery Address</Text>
+            {console.log("userInfo=",userInfo)}
+            <Text style={styles.deliveryAddressText}>{userInfo.address}</Text>
+        </View>
           </View>
 
+        {/*Cart Items*/}
           <SafeAreaView>
             <FlatList
               data={cartItemsState}
@@ -231,8 +183,10 @@ const CartScreen = () => {
 
         <View style={styles.checkOutContainer}>
           <View style={styles.checkOutBottomTabContainer}>
-
-            <TouchableOpacity style={styles.orderTotalAndSavedContainer} onPress={() => handleTotalAndSavedContainerPress()}>
+            <TouchableOpacity
+              style={styles.orderTotalAndSavedContainer}
+              onPress={() => handleTotalAndSavedContainerPress()}
+            >
               <Text style={styles.orderTotalText}>₹{totalAmount}</Text>
               <Text style={styles.orderSavedText}>You Saved ₹{totalSaved}</Text>
             </TouchableOpacity>
@@ -250,7 +204,6 @@ const CartScreen = () => {
                 />
               </Text>
             </TouchableOpacity>
-
           </View>
         </View>
       </View>
@@ -262,6 +215,21 @@ const styles = StyleSheet.create({
   AndroidSafeArea: {
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
+  deliveryAddressContainer: {
+    marginBottom: 16,
+    borderWidth: 0.2,
+    flex: 1,
+    borderRadius: 10,
+    padding: 10,
+  },
+  deliveryAddressTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  deliveryAddressText: {
+    fontSize: 16,
+  },
   listContainer: {
     flexGrow: 1,
     paddingBottom: 350, //adjust this property to control the space below the list of cart items
@@ -270,14 +238,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 10,
-    marginHorizontal: 10,
-    padding: 10,
-    borderBottomWidth: 1,
+    marginHorizontal: 5,
+    paddingHorizontal: 5,
+    paddingTop: 0,
+    //borderBottomWidth: 1,
     borderBottomColor: "#ddd",
   },
   imageContainer: {
-    width: 100,
-    height: 100,
+    width: 50,
+    height: 50,
     borderRadius: 10,
     overflow: "hidden",
     marginRight: 10,
@@ -314,6 +283,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "red",
     textDecorationLine: "line-through",
+  },
+  qtyContainer: {
+
   },
   addButton: {
     //backgroundColor: '#007bff',
@@ -404,4 +376,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CartScreen;
+export default OrderReviewScreenNew;
