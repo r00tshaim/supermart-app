@@ -107,7 +107,7 @@ const HomeScreen = ({navigation}) => {
         <SafeAreaView style={styles.AndroidSafeArea}>
             <ScrollView>
             {/* Location and Search */}
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
+            {/*<View style={{ flexDirection: "row", alignItems: "center" }}>
                 <View style={{ paddingLeft: 10 }}>
                 <Entypo name="location-pin" size={35} color={COLORS.green} />
                 </View>
@@ -122,7 +122,7 @@ const HomeScreen = ({navigation}) => {
                 <TouchableOpacity style={{ paddingLeft: 80 }} onPress={() => handleCartPress()}>
                     <CartBottomTab isFocused={false} />
                 </TouchableOpacity>
-            </View>
+    </View>*/}
 
             {/* Search Bar
             <View style={{

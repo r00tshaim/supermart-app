@@ -1,4 +1,4 @@
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Ionicons } from '@expo/vector-icons';
@@ -14,6 +14,8 @@ import SplashScreen from "../src/screens/SplashScreen";
 import LoginScreen from "../src/screens/LoginScreen";
 import OTPScreen from "../src/screens/OTPScreen";
 import RegisterScreen from "../src/screens/RegisterScreen";
+import OrderReviewScreen from "../src/screens/OrderReviewScreen";
+import OrderReviewScreenNew from "../src/screens/OrderReviewScreenNew";
 
 const Stack = createStackNavigator();
 
@@ -48,10 +50,20 @@ const MainNavigation = () => {
 
         <Stack.Screen
             name="CartScreen"
-            options={{ 
-                headerShown: false 
-            }}
             component={CartScreen}
+            options= {({ navigation }) => ({ 
+                //headerShown: false,
+                title: 'My Cart',
+                headerTitleAlign: 'center',
+                headerStyle: {
+                  backgroundColor: COLORS.green
+                },
+                headerLeft: () => (
+                  <View style={styles.leftHeader}>
+                    <Ionicons name="arrow-back-circle" size={40} color={COLORS.black} onPress={() => navigation.goBack()} />
+                  </View>
+              ),
+            })}   
         />
 
         <Stack.Screen
@@ -60,9 +72,13 @@ const MainNavigation = () => {
             options={({ navigation }) => ({
                 title: 'Products',
                 headerTitleAlign: 'center',
+                //headerBackground: () => (<Image style={StyleSheet.absoluteFill} source={{ uri:'https://5.imimg.com/data5/SELLER/Default/2021/3/KO/QG/XG/3922575/all-grocery-items-500x500.jpg'}} />),
+                headerStyle: {
+                  backgroundColor: COLORS.green
+                },
                 headerLeft: () => (
                     <View style={styles.leftHeader}>
-                      <Ionicons name="arrow-back-circle" size={40} color={COLORS.green} onPress={() => navigation.goBack()} />
+                      <Ionicons name="arrow-back-circle" size={40} color={COLORS.black} onPress={() => navigation.goBack()} />
                     </View>
                 ),
                 headerRight: () => (
@@ -72,6 +88,25 @@ const MainNavigation = () => {
                 )
               })}
         />
+
+<Stack.Screen
+            name="OrderReviewScreenNew"
+            component={OrderReviewScreenNew}
+            options={({  }) => ({
+              headerShown: false
+            })}
+            
+          />
+
+        {/*<Stack.Screen
+            name="OrderReviewScreen"
+            options={{ 
+                headerShown: false 
+            }}
+            component={OrderReviewScreen}
+          />*/}
+
+      
 
         <Stack.Screen
             name="RegisterScreen"
