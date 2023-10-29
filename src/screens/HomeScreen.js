@@ -18,6 +18,10 @@ import { setCategoriesInventory, setProductsInventory, setBrandsInventory } from
 import { useDispatch } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { Button } from 'react-native-paper';
+import MyComponent from '../components/Sample';
+import MyComponent2 from '../components/Sample2';
+
 const HomeScreen = ({navigation}) => {
     const [categoreyOffersList, setCategoreyOffersList] = useState([]);
     const [productsOfferList, setProductsOfferList] = useState([]);
@@ -141,6 +145,14 @@ const HomeScreen = ({navigation}) => {
 
             {/* Offers Carousel */}
             <OffersSlider offers={categoreyOffersList}/>
+
+            <Button icon="camera" mode="outlined" onPress={() => console.log('Pressed')}>
+                Press me
+            </Button>
+
+            <MyComponent />
+
+            <MyComponent2 />
 
             {/* Categories */}
             <View style={{ paddingTop: 3, paddingLeft: 15 }}>
