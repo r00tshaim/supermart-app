@@ -19,9 +19,9 @@ import OrderReviewScreenNew from "../src/screens/OrderReviewScreenNew";
 
 const Stack = createStackNavigator();
 
-const MainNavigation = () => {
+const MainNavigation = ({ theme }) => {
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={theme}>
       <Stack.Navigator>
 
         <Stack.Screen
