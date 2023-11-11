@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from "../src/constants/colors";
 
 import Tabs from "./Tabs";
+import Tabs_v2 from "./Tabs_v2";
 
 import ProductsScreen from "../src/screens/ProductsScreen";
 import CartBottomTab from "../src/components/CartBottomTab";
@@ -121,7 +122,7 @@ const MainNavigation = ({ theme }) => {
             options={{ 
                 headerShown: false 
             }}
-            component={Tabs}
+            component={Tabs_v2}
         />
 
       </Stack.Navigator>

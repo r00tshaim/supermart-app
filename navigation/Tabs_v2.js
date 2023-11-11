@@ -5,17 +5,17 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { CommonActions } from '@react-navigation/native';
 import { Text, BottomNavigation } from 'react-native-paper';
 
-import { ICONS } from '../constants/icons';
+import { ICONS } from '../src/constants/icons';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import HomeScreen from '../screens/HomeScreen';
-import SearchScreen from '../screens/SearchScreen';
-import OrdersScreen from '../screens/OrdersScreen';
-import AccountScreen from '../screens/AccountScreen';
+import HomeScreen from '../src/screens/HomeScreen';
+import SearchScreen from '../src/screens/SearchScreen';
+import OrdersScreen from '../src/screens/OrdersScreen';
+import AccountScreen from '../src/screens/AccountScreen';
 
-import CartBottomTab from './CartBottomTab';
+import CartBottomTab from '../src/components/CartBottomTab';
 
 
 const Tab = createBottomTabNavigator();

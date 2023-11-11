@@ -1,4 +1,4 @@
-import { Text, View, TextInput, SafeAreaView, StyleSheet,Platform, StatusBar, ScrollView, TouchableOpacity } from 'react-native';
+import { View, TextInput, SafeAreaView, StyleSheet,Platform, StatusBar, ScrollView, TouchableOpacity } from 'react-native';
 import { EvilIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import Toast from 'react-native-toast-message';
@@ -18,9 +18,7 @@ import { setCategoriesInventory, setProductsInventory, setBrandsInventory } from
 import { useDispatch } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { Button } from 'react-native-paper';
-import MyComponent from '../components/Sample';
-import MyComponent2 from '../components/Sample2';
+import { Button, Text } from 'react-native-paper';
 
 const HomeScreen = ({navigation}) => {
     const [categoreyOffersList, setCategoreyOffersList] = useState([]);
@@ -146,27 +144,24 @@ const HomeScreen = ({navigation}) => {
             {/* Offers Carousel */}
             <OffersSlider offers={categoreyOffersList}/>
 
-            <Button icon="camera" mode="outlined" onPress={() => console.log('Pressed')}>
-                Press me
-            </Button>
-
-            <MyComponent />
-
-            <MyComponent2 />
-
             {/* Categories */}
-            <View style={{ paddingTop: 3, paddingLeft: 15 }}>
-                <Text style={{ fontSize: 25, fontWeight: 600 }}>Categories</Text>
+            <View style={{ paddingTop: 5, paddingLeft: 10 }}>
+                <Text variant="titleLarge">Categories</Text>
             </View>
             <Categories categoriesList={categoriesList} onSelectCategory={handleCategorySelect}/>
 
             {/* Deals of the day */}
+            <View style={{ paddingTop: 3, paddingLeft: 10 }}>
+                <Text variant="titleLarge">Deals of the day</Text>
+            </View>
             <Deals deals={productsOfferList} />
 
-            <View style={{ paddingTop: 15, paddingLeft: 15 }}>
-                <Text style={{ fontSize: 25, fontWeight: 600 }}>Shop by Brands</Text>
+            {/*
+            <View style={{ paddingTop: 0, paddingLeft: 10 }}>
+                <Text variant="titleLarge">Shop by Brands</Text>
             </View>
-            <Categories categoriesList={brandsList} onSelectCategory={handleBrandSelect}/>
+            <Categories categoriesList={brandsList} onSelectCategory={handleBrandSelect}/> 
+    */}
 
   </ScrollView>
         </SafeAreaView >
@@ -176,7 +171,7 @@ const HomeScreen = ({navigation}) => {
 const styles = StyleSheet.create({
     AndroidSafeArea: {
         paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-        marginBottom: 80
+        //marginBottom: 80
     },
 })
 

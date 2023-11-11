@@ -63,11 +63,11 @@ export default function _App() {
       <PaperProvider theme={isThemeDarkFromUserSlice ? CombinedDarkTheme : CombinedDefaultTheme}>
         <StatusBar translucent={true} backgroundColor="transparent" />
         <MainNavigation theme={isThemeDarkFromUserSlice ? CombinedDarkTheme : CombinedDefaultTheme} />
-        <Switch
+        {/*<Switch
           color={'red'}
           value={isThemeDarkFromUserSlice}
           onValueChange={handleThemeToggle}
-        />
+  />*/}
         <Toast />
       </PaperProvider>
   );

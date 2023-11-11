@@ -1,4 +1,5 @@
-import { View, Text, ScrollView, Image, TouchableOpacity, Alert } from 'react-native'
+import { View, ScrollView, Image, TouchableOpacity } from 'react-native'
+import { Text } from 'react-native-paper'
 import React from 'react'
 import {REST_API_SERVER} from "@env"
 
@@ -14,16 +15,13 @@ const Categories = ({categoriesList, onSelectCategory}) => {
     }
 
     return (
-        <View>
+        <View style={{ marginVertical: 5 }}>
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                 {listOfCatgories.map((category, index) => (
-                    <TouchableOpacity key={category._id} style={{ padding: 10, margin: 10 }} onPress={() => handleCategorySelect(category._id)}>
-                        {/*<Text style={{ padding: 10, borderWidth: 1, margin: 10, borderRadius: 10 }}>
-                            {category.name}
-                </Text>*/}
+                    <TouchableOpacity key={category._id} style={{ paddingHorizontal: 10, margin: 5 }} onPress={() => handleCategorySelect(category._id)}>
                         {/* currently below replace() is a hack, need to remove once image storing is identified for production */}
-                        <Image source={{ uri:category.image.replace(/localhost/g, `${REST_API_SERVER}`) }} style={{ height: 50, width: 50, alignSelf: "center" }} />
-                        <Text style={{paddingTop: 5}}>{category.name}</Text>
+                        <Image source={{ uri:category.image.replace(/localhost/g, `${REST_API_SERVER}`) }} style={{ height: 35, width: 35, alignSelf: "center" }} />
+                        <Text variant="bodyMedium" style={{paddingTop: 5}}>{category.name}</Text>
                     </TouchableOpacity>
                 ))}
             </ScrollView>
