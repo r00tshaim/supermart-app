@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, Image, StyleSheet, Dimensions } from "react-native";
+import { View, Image, StyleSheet, Dimensions } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import { COLORS } from "../constants/colors";
 import { getCategorybyId } from "../utils/categoriesUtil";
+import { Text } from "react-native-paper";
+
+const IMAGES_DIR = "../../assets/carousel";
 
 const horizontalMargin = 20;
 const slideWidth = 280;
@@ -12,8 +15,38 @@ const ITEM_WIDTH = slideWidth + horizontalMargin * 4;
 const itemHeight = 200;
 
 const OffersSlider = ({ offers }) => {
-  const [activeSlide, setActiveSlide] = useState(0);
+  //const [activeSlide, setActiveSlide] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
 
+  const data = [
+    {
+      id: 1,
+      title: 'Title 1',
+      image: require(`${IMAGES_DIR}/offer1.jpg`),
+    },
+    {
+      id: 2,
+      title: 'Title 2',
+      image: require(`${IMAGES_DIR}/offer2.webp`),
+    },
+    {
+      id: 3,
+      title: 'Title 3',
+      image: require(`${IMAGES_DIR}/offer3.webp`),
+    },
+    {
+      id: 4,
+      title: 'Title 4',
+      image: require(`${IMAGES_DIR}/offer4.jpg`),
+    },
+    {
+      id: 5,
+      title: 'Title 5',
+      image: require(`${IMAGES_DIR}/offer5.jpg`),
+    },
+  ];
+  
+  /*
   const renderOfferItem = ({ item }) => {
     const categorey = getCategorybyId(item.categoreyId)
     return (
@@ -33,10 +66,36 @@ const OffersSlider = ({ offers }) => {
 
       </View>
     );
+  };*/
+
+  const renderItem = ({ item }) => {
+    return (
+      <View style={styles.offerItem}>
+        <Image source={item.image} style={styles.image} />
+        {/*<Text style={{ fontSize: 20 }}>{item.title}</Text>*/}
+      </View>
+    );
   };
 
   return (
     <View style={styles.container}>
+      <Carousel
+        data={data}
+        renderItem={renderItem}
+        sliderWidth={SLIDER_WIDTH}
+        itemWidth={ITEM_WIDTH}
+        onSnapToItem={(index) => setActiveIndex(index)}
+        autoplay={true}
+        autoplayInterval={3000}
+        loop={true}
+      />
+      {/*<Pagination
+        dotsLength={data.length}
+        activeDotIndex={activeIndex}
+        containerStyle={{ paddingVertical: 10 }}
+  />*/}
+    </View>
+    /*<View style={styles.container}>
       <Carousel
         data={offers}
         renderItem={renderOfferItem}
@@ -57,37 +116,38 @@ const OffersSlider = ({ offers }) => {
         inactiveDotOpacity={0.4}
         inactiveDotScale={0.6}
       />
-    </View>
+  </View>*/
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
-    marginBottom: 5,
+    marginTop: 8,
+    marginBottom: 10,
   },
   offerItem: {
+    width: ITEM_WIDTH, 
     borderRadius: 10,
-    overflow: "hidden",
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 10,
-    marginHorizontal: 10,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
-    elevation: 4,
+    //overflow: "hidden",
+    //flexDirection: "row",
+    //alignItems: "center",
+    //padding: 10,
+    marginHorizontal: 5,
+    //shadowColor: "#000",
+    //shadowOffset: {
+    //  width: 0,
+    //  height: 2,
+    //},
+    //shadowOpacity: 0.23,
+    //shadowRadius: 2.62,
+    //elevation: 4,
     height: 150,
-    justifyContent: "space-between",
-    backgroundColor: COLORS.green
+    //justifyContent: "space-between",
+    //backgroundColor: COLORS.green
   },
   imageContainer: {
-    width: 120,
-    height: 120,
+    width: ITEM_WIDTH,
+    height: itemHeight,
     borderRadius: 10,
     marginRight: 10,
     overflow: "hidden",

@@ -3,9 +3,13 @@ import React, { useEffect, useState } from 'react'
 import { ICONS } from '../constants/icons'
 import { COLORS } from '../constants/colors'
 import { useSelector } from 'react-redux'
+import { Badge, useTheme } from 'react-native-paper';
 
-const CartBottomTab = ( {isFocused} ) => {
+import { AntDesign } from '@expo/vector-icons';
+
+const CartBottomTab = () => {
     const [cartItemsCount, setCartItemsCount] = useState(0)
+    const theme = useTheme();
     //get count for unique
     const totalItems = useSelector((state) => state.cart.totalUniqueItems);
 
@@ -15,13 +19,11 @@ const CartBottomTab = ( {isFocused} ) => {
 
   return (
     <View>
-        <Image
-            source={ICONS.cart}
-            style={{ width: 25, height: 25, tintColor: isFocused ? COLORS.green : COLORS.black }}
-        />
+        <AntDesign name="shoppingcart" size={28} color="black" />
         { cartItemsCount > 0 &&
             <View style={styles.cartItemCounterContainer}>
-                <Text style={styles.cartItemText}>{cartItemsCount}</Text>
+                <Badge theme={theme}>{cartItemsCount}</Badge>
+                {/*<Text style={styles.cartItemText}>{cartItemsCount}</Text>*/}
             </View>
         }
     </View>
