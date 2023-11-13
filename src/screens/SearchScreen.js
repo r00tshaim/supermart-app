@@ -1,6 +1,5 @@
 import {
   View,
-  Text,
   SafeAreaView,
   StatusBar,
   StyleSheet,
@@ -9,12 +8,16 @@ import {
   FlatList,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Fuse from "fuse.js";
 import Product from "../components/Product";
 import { COLORS } from "../constants/colors";
+import {REST_API_SERVER} from "@env"
+
+import { Searchbar, useTheme, Text } from 'react-native-paper';
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -30,6 +33,8 @@ const SearchScreen = () => {
 
   const productsList = useSelector((state) => state.inventory.products);
   const categoriesList = useSelector((state) => state.inventory.categories);
+
+  const theme = useTheme();
 
   const options = {
     keys: ["name"],
@@ -76,6 +81,8 @@ const SearchScreen = () => {
   const renderCategories = () => {
     return (
       <FlatList
+        //horizontal
+        //numColumns={}
         data={categories}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
@@ -89,14 +96,18 @@ const SearchScreen = () => {
               }
             }}
           >
-            <Text
-              style={[
-                styles.categoryText,
-                { color: expandedCategory === item._id ? COLORS.green : COLORS.black,}, 
-              ]}
-            >
+            <View style={{flexDirection: "row"}}>
+              <Image source={{ uri: item.image.replace(/localhost/g, `${REST_API_SERVER}`) }} style={{ height: 35, width: 35 }} />
+              <Text
+                variant="titleLarge"
+                style={[
+                  styles.categoryText,
+                  { color: expandedCategory === item._id ? theme.colors.primary : COLORS.black,}, 
+                ]}
+              >
               {item.name}
             </Text>
+            </View>
             {expandedCategory === item._id && (
               <View style={styles.subCategoryContainer}>
                 {renderSubCategories(item.subCategories)}
@@ -115,13 +126,14 @@ const SearchScreen = () => {
         prod.category === expandedCategory && prod.subcategory === subCategoryId
     );
 
-    return (
-      <FlatList
+      //There is some warning when this navigation is done.
+      //TODO: fix the warning
+      navigation.navigate('ProductsScreen', {productList: products})
+      /*<FlatList
         data={products}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => <Product prod={item} />}
-      />
-    );
+      />*/
   };
 
   // Render sub-categories list for a category
@@ -137,16 +149,23 @@ const SearchScreen = () => {
           else setSelectedSubCategory(subCategory._id);
         }}
       >
+        <Image source={{ uri: subCategory.image.replace(/localhost/g, `${REST_API_SERVER}`) }} style={{ height: 40, width: 40 }} />
         <Text
+          variant="titleMedium"
           style={[
             styles.subCategoryText,
-            { color: selectedSubCategory === subCategory._id ? COLORS.green : COLORS.black, },
+            { color: selectedSubCategory === subCategory._id ? theme.colors.primary : COLORS.black, },
           ]}
         >
           {subCategory.name}
         </Text>
-        {selectedSubCategory === subCategory._id &&
-          renderProduct(subCategory._id)}
+
+        {selectedSubCategory === subCategory._id && (
+          <View>
+          {renderProduct(subCategory._id)}
+          </View>
+        )}
+
       </TouchableOpacity>
     ));
   };
@@ -170,14 +189,22 @@ const SearchScreen = () => {
   //---------------------------------------------------
 
   return (
-    <SafeAreaView style={styles.AndroidSafeArea}>
-      <View style={styles.searchBarContainer}>
-        <TextInput
+    <SafeAreaView style={styles.safeAreaContainer}>
+      <View style={""}>
+        {/*<TextInput
           style={styles.searchInput}
           value={searchQuery}
           onChangeText={(text) => setSearchQuery(text)}
           placeholder="Search..."
           onSubmitEditing={handleSearch}
+  />*/}
+        <Searchbar
+          placeholder="Search"
+          onChangeText={(text) => setSearchQuery(text)}
+          value={searchQuery}
+          onSubmitEditing={handleSearch}
+          elevation={5}
+          theme={theme}
         />
       </View>
 
@@ -193,10 +220,8 @@ const SearchScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  AndroidSafeArea: {
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    marginBottom: 80,
-    //backgroundColor: '#fff',
+  safeAreaContainer: {
+    marginTop: 10,
   },
   searchBarContainer: {
     padding: 10,
@@ -242,38 +267,40 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
   },
   categoryText: {
-    fontSize: 20,
+    paddingLeft: 10,
+    //fontSize: 20,
   },
   categoryArrow: {
     fontSize: 16,
   },
   subCategoryContainer: {
     padding: 10,
-    backgroundColor: "#fff",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    //backgroundColor: "#fff",
+    //shadowColor: "#000",
+    //shadowOffset: {
+    //  width: 0,
+    //  height: 2,
+    //},
+    //shadowOpacity: 0.25,
+    //shadowRadius: 3.84,
+    //elevation: 5,
     marginBottom: 20,
     borderRadius: 20,
   },
   subCategoryItem: {
-    //flexDirection: 'row',
-    //alignItems: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
     //justifyContent: 'space-between',
-    marginVertical: 4,
-    paddingVertical: 7,
+    marginVertical: 1,
+    paddingVertical: 4,
     //borderWidth: 1,
     //borderRadius: 10,
     borderColor: "#ccc",
     paddingLeft: 30,
   },
   subCategoryText: {
-    fontSize: 16,
+    //fontSize: 16,
+    paddingLeft: 10,
   },
 });
 
