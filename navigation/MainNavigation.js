@@ -2,10 +2,11 @@ import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 import { COLORS } from "../src/constants/colors";
 
-import Tabs from "./Tabs";
+//import Tabs from "./Tabs";
 import Tabs_v2 from "./Tabs_v2";
 
 import ProductsScreen from "../src/screens/ProductsScreen";

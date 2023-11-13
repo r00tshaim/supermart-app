@@ -104,12 +104,30 @@ export default function Tabs_v2() {
       <Tab.Screen
         name="Search" 
         component={SearchScreen}
-        options={{
+        options={({ navigation }) => ({
           tabBarLabel: 'Search',
+          //headerShown: false,
           tabBarIcon: ({ color, size }) => {
             return <AntDesign name="search1" size={size} color={color} />
           },
-        }}
+          headerLeft: () => (
+            <View style={styles.homeLeftHeader}>
+              <Image
+                source={ICONS.splashScreenLogo}
+                style={{ width: 100, height: 70, paddingLeft: 20 }} />
+            
+              {/*<Text style={{paddingLeft: 5, fontSize: 16}}>
+                MHK Mart
+          </Text>*/}
+            </View>
+          ),
+          headerRight: () => (
+            <TouchableOpacity style={styles.homeRightHeader} onPress={() => navigation.navigate('CartScreen')}>
+              <CartBottomTab />
+            </TouchableOpacity>
+          )
+        })}
+        
       />
 
       <Tab.Screen
