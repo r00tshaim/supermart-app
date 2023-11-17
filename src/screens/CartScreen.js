@@ -1,6 +1,5 @@
 import {
   View,
-  Text,
   SafeAreaView,
   StatusBar,
   StyleSheet,
@@ -9,13 +8,13 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
+import { Text, useTheme, Surface, IconButton, Badge } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { COLORS } from "../constants/colors";
 import { useEffect, useState } from "react";
 import { addToCart, reduceItemQty, removeFromCart } from "../redux/cartSlice";
-import Header from "../common/Header";
-import { Entypo } from "@expo/vector-icons";
+import { Entypo, Ionicons } from "@expo/vector-icons";
 import {REST_API_SERVER} from "@env"
 import axiosClient from "../axios/axiosClient";
 import { emptyCart } from "../redux/cartSlice";
@@ -23,6 +22,7 @@ import { emptyCart } from "../redux/cartSlice";
 const CartScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const theme = useTheme();
 
   const cartItems = useSelector((state) => state.cart.data);
   const cartUniqueItemsCount = useSelector(
@@ -130,25 +130,25 @@ const CartScreen = () => {
 
   const renderProduct = ({ item }) => {
     return (
-      <View style={styles.productContainer}>
+      <Surface style={styles.productContainer} elevation={3}>
         <View style={styles.imageContainer}>
           <Image source={{ uri: item.image.replace(/localhost/g, `${REST_API_SERVER}`) }} style={styles.image} />
         </View>
         <View style={styles.productDetailsContainer}>
-          <Text style={styles.name}>{item.name}</Text>
-          <Text style={styles.description}>{item.description}</Text>
+          <Text variant="titleSmall" style={styles.name}>{item.name}</Text>
+          <Text variant="labelSmall" style={styles.description}>{item.description.length > 65 ? item.description.slice(0,60) + '...' : item.description}</Text>
 
           {
             //when offerPrice is not available, display only actual price of item
             item.offerPrice === -1 && (
-              <Text style={styles.offerPrice}>₹{item.mrpPrice}</Text>
+              <Text variant="bodyLarge" style={styles.offerPrice}>₹{item.mrpPrice}</Text>
             )
           }
 
           {item.offerPrice !== -1 && (
             <View style={styles.priceContainer}>
-              <Text style={styles.offerPrice}>₹{item.offerPrice}</Text>
-              <Text style={styles.originalPrice}>₹{item.mrpPrice}</Text>
+              <Text variant="bodyLarge" style={styles.offerPrice}>₹{item.offerPrice}</Text>
+              <Text variant="bodyMedium" style={{...styles.originalPrice, color: theme.colors.error}}>₹{item.mrpPrice}</Text>
             </View>
           )}
   
@@ -162,6 +162,7 @@ const CartScreen = () => {
             </TouchableOpacity>
           ) : (
             <View style={styles.adjustQtyContainer}>
+              {/*
               <TouchableOpacity
                 style={styles.signContainer}
                 onPress={() => handleReduceItemQty(item)}
@@ -171,16 +172,30 @@ const CartScreen = () => {
 
               <Text style={styles.qtyText}>{item.qty}</Text>
 
-              <TouchableOpacity
-                style={styles.signContainer}
+              <TouchableOpacity  
                 onPress={() => handleIncrementItemQty(item)}
               >
                 <Text style={styles.addButtonLabel}>+</Text>
               </TouchableOpacity>
+           */}
+                <IconButton
+                  icon="minus"
+                  iconColor={"black"}
+                  size={18}
+                  onPress={() => handleReduceItemQty(item)}
+                />
+
+                <Badge size={22} style={styles.qtyText}>{item.qty}</Badge>
+                <IconButton
+                  icon="plus"
+                  iconColor={"black"}
+                  size={18}
+                  onPress={() => handleIncrementItemQty(item)}
+                />
             </View>
           )}
         </View>
-      </View>
+      </Surface>
     );
   };
 
@@ -188,32 +203,32 @@ const CartScreen = () => {
   if (cartItemsState.length === 0) {
     return (
       <View style={styles.AndroidSafeArea}>
-        <Header title={"Your Cart"} isBack={true} />
+        {/*<Header title={"Your Cart"} isBack={true} />*/}
         <Text style={styles.emptyCartText}>No Items in Cart</Text>
       </View>
     );
   } else {
     return (
-      <View style={{ flex: 1}}>
+      <View style={{ }}>
         <View style={styles.AndroidSafeArea}>
           {/*<Header title={"Your Cart"} isBack={true} />  */}
 
           <View
             style={{
               flexDirection: "row",
-              paddingTop: 15,
-              paddingBottom: 15,
+              paddingVertical: 5,
               justifyContent: "space-between",
-              marginHorizontal: 17,
+              marginHorizontal: 15,
+              marginBottom: 10,
             }}
           >
             <View style={{ alignSelf: "center" }}>
-              <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+              <Text variant="titleMedium">
                 Cart Items: {cartUniqueItemsCount}
               </Text>
             </View>
             <View style={{}}>
-              <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+              <Text variant="titleLarge">
                 Cart Total: {totalAmount}
               </Text>
             </View>
@@ -229,7 +244,7 @@ const CartScreen = () => {
           </SafeAreaView>
         </View>
 
-        <View style={styles.checkOutContainer}>
+        <View style={{...styles.checkOutContainer, bottom: cartUniqueItemsCount > 2 ? 190 : 50}}>
           <View style={styles.checkOutBottomTabContainer}>
 
             <TouchableOpacity style={styles.orderTotalAndSavedContainer} onPress={() => handleTotalAndSavedContainerPress()}>
@@ -252,6 +267,7 @@ const CartScreen = () => {
             </TouchableOpacity>
 
           </View>
+
         </View>
       </View>
     );
@@ -261,6 +277,7 @@ const CartScreen = () => {
 const styles = StyleSheet.create({
   AndroidSafeArea: {
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    //backgroundColor: "red"
   },
   listContainer: {
     flexGrow: 1,
@@ -271,16 +288,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 10,
     marginHorizontal: 10,
-    padding: 10,
-    borderBottomWidth: 1,
+    padding: 4,
+    borderBottomWidth: 0.3,
     borderBottomColor: "#ddd",
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
   },
   imageContainer: {
-    width: 100,
-    height: 100,
-    borderRadius: 10,
+    width: 120,
+    height: 120,
+    borderRadius: 5,
     overflow: "hidden",
     marginRight: 10,
+    borderRadius: 20,
   },
   image: {
     width: "100%",
@@ -291,13 +312,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   name: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 5,
+    //fontSize: 16,
+    //fontWeight: "bold",
+    marginBottom: 2,
   },
   description: {
-    fontSize: 14,
-    marginBottom: 5,
+    //fontSize: 14,
+    marginBottom: 2,
   },
   priceContainer: {
     flexDirection: "row",
@@ -305,14 +326,14 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   offerPrice: {
-    fontSize: 16,
+    //fontSize: 16,
     fontWeight: "bold",
-    color: "green",
+    //color: "green",
     marginRight: 10,
   },
   originalPrice: {
-    fontSize: 14,
-    color: "red",
+    //fontSize: 14,
+    //color: "red",
     textDecorationLine: "line-through",
   },
   addButton: {
@@ -342,7 +363,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   qtyText: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: "bold",
     alignSelf: "center",
   },
@@ -354,14 +375,17 @@ const styles = StyleSheet.create({
   },
   checkOutContainer: {
     flex: 1,
+    //bottom: 190,
+    //bottom: 50,
+    backgroundColor: "yellow",
   },
   checkOutBottomTabContainer: {
     position: "absolute",
-    bottom: 165,
+    //bottom: 165,
     left: 20,
     right: 20,
     borderRadius: 15,
-    backgroundColor: COLORS.white,
+    backgroundColor: "white",
     height: 70,
     elevation: 10,
     shadowColor: COLORS.black,

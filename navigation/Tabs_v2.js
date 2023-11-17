@@ -3,7 +3,7 @@ import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { CommonActions } from '@react-navigation/native';
-import { Text, BottomNavigation } from 'react-native-paper';
+import { Text, BottomNavigation, useTheme } from 'react-native-paper';
 
 import { ICONS } from '../src/constants/icons';
 import { AntDesign } from '@expo/vector-icons';
@@ -21,11 +21,15 @@ import CartBottomTab from '../src/components/CartBottomTab';
 const Tab = createBottomTabNavigator();
 
 export default function Tabs_v2() {
+  const theme = useTheme();
   return (
     <Tab.Navigator
       screenOptions={{
         //headerShown: false,
         title: false,     //title for all tabs disabled
+        headerStyle: {
+          backgroundColor: theme.colors.secondaryContainer,
+        },
       }}
       tabBar={({ navigation, state, descriptors, insets }) => (
         <BottomNavigation.Bar
