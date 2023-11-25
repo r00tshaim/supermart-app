@@ -50,7 +50,7 @@ const ProductsScreen = ({route}) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 150,
+    marginBottom: 50,
   },
 });
 
