@@ -1,5 +1,6 @@
-import { View, Text, Image, TouchableOpacity ,StyleSheet } from 'react-native'
+import { View, Image, TouchableOpacity ,StyleSheet } from 'react-native'
 import React, { useEffect, useState } from 'react'
+import { Text, IconButton, Badge, useTheme } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
 import { COLORS } from '../constants/colors'
 import {REST_API_SERVER} from "@env"
@@ -11,6 +12,7 @@ const Product = ({ prod }) => {
     const [customName, setCustomName] = useState("")
 
     const dispatch = useDispatch();
+    const theme = useTheme();
 
     //getting cart state to check if item already in cart
     const cartItems = useSelector((state) => state.cart.data)
@@ -54,33 +56,54 @@ const Product = ({ prod }) => {
           <Image source={{ uri: prod.image.replace(/localhost/g, `${REST_API_SERVER}`) }} style={styles.image} />
         </View>
         <View style={styles.productDetailsContainer}>
-          <Text style={styles.name}>{customName}</Text>
-          <Text style={styles.description}>{prod.description}</Text>
+          <Text variant="titleSmall" style={styles.name}>{customName}</Text>
+          <Text variant="labelSmall" style={styles.description}>{prod.description.length > 65 ? prod.description.slice(0,60) + '...' : prod.description}</Text>
           
           { prod.offerPrice !== -1 && 
             (<View style={styles.priceContainer}>
-              <Text style={styles.offerPrice}>₹{prod.offerPrice}</Text>
-              <Text style={styles.originalPrice}>₹{prod.mrpPrice}</Text>
+              <Text variant="bodyLarge" style={styles.offerPrice}>₹{prod.offerPrice}</Text>
+              <Text variant="bodyMedium" style={{...styles.originalPrice, color: theme.colors.error}}>₹{prod.mrpPrice}</Text>
               </View>
             )
           }
 
           { //when offerPrice is not available, display only actual price of item
             prod.offerPrice === -1 && 
-            <Text style={styles.offerPrice}>₹{prod.mrpPrice}</Text>
+            <Text variant="bodyLarge" style={styles.offerPrice}>₹{prod.mrpPrice}</Text>
           }
 
 
         {itemCartObj === undefined || itemCartObj.qty == 0 ? (
-            <TouchableOpacity
-              style={styles.addButton}
+
+          <View style={styles.addButton}>
+            <IconButton
+              icon="cart-plus"
+              iconColor={"black"}
+              size={25}
               onPress={() => addToCartHandler(prod)}
-            >
-              <Text style={styles.addButtonLabel}>Add +</Text>
-            </TouchableOpacity>
+            />
+          </View>
+
           ) : (
             <View style={styles.adjustQtyContainer}>
-              <TouchableOpacity
+
+                <IconButton
+                  icon="minus"
+                  iconColor={"black"}
+                  size={18}
+                  onPress={() => handleReduceItemQty(itemCartObj)}
+                />
+
+                <Badge size={22} style={styles.qtyText}>{itemCartObj.qty}</Badge>
+
+                <IconButton
+                  icon="plus"
+                  iconColor={"black"}
+                  size={18}
+                  onPress={() => handleIncrementItemQty(itemCartObj)}
+                />
+            
+              {/*<TouchableOpacity
                 style={styles.signContainer}
                 onPress={() => handleReduceItemQty(itemCartObj)}
               >
@@ -94,7 +117,7 @@ const Product = ({ prod }) => {
                 onPress={() => handleIncrementItemQty(itemCartObj)}
               >
                 <Text style={styles.addButtonLabel}>+</Text>
-              </TouchableOpacity>
+          </TouchableOpacity>*/}
             </View>
           )}
 
@@ -111,8 +134,8 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       marginBottom: 10,
       marginHorizontal: 10,
-      padding: 10,
-      borderBottomWidth: 1,
+      padding: 4,
+      borderBottomWidth: 0.5,
       borderBottomColor: '#ddd',
     },
     imageContainer: {
@@ -131,13 +154,13 @@ const styles = StyleSheet.create({
       flex: 1,
     },
     name: {
-      fontSize: 14,
-      fontWeight: 'bold',
-      marginBottom: 5,
+      //fontSize: 14,
+      //fontWeight: 'bold',
+      marginBottom: 2,
     },
     description: {
-      fontSize: 12,
-      marginBottom: 5,
+      //fontSize: 12,
+      marginBottom: 2,
     },
     priceContainer: {
       flexDirection: 'row',
@@ -145,22 +168,22 @@ const styles = StyleSheet.create({
       marginBottom: 5,
     },
     offerPrice: {
-      fontSize: 16,
+      //fontSize: 16,
       fontWeight: 'bold',
-      color: 'green',
+      //color: 'green',
       marginRight: 10,
     },
     originalPrice: {
-      fontSize: 14,
-      color: 'red',
+      //fontSize: 14,
+      //color: 'red',
       textDecorationLine: 'line-through',
     },
     addButton: {
       //backgroundColor: '#007bff',
-      paddingHorizontal: 8,
-      paddingVertical: 5,
-      borderRadius: 10,
-      borderWidth: 0.2,
+      //paddingHorizontal: 8,
+      //paddingVertical: 5,
+      //borderRadius: 10,
+      //borderWidth: 0.2,
       alignSelf: 'flex-end',
       marginHorizontal: 0,
   
