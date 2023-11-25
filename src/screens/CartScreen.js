@@ -7,6 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
+  Dimensions
 } from "react-native";
 import { Text, useTheme, Surface, IconButton, Badge } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,6 +24,7 @@ const CartScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const theme = useTheme();
+  const {width, height} = Dimensions.get('window')
 
   const cartItems = useSelector((state) => state.cart.data);
   const cartUniqueItemsCount = useSelector(
@@ -209,8 +211,8 @@ const CartScreen = () => {
     );
   } else {
     return (
-      <View style={{ }}>
-        <View style={styles.AndroidSafeArea}>
+      <View style={{flex: 1}}>
+        <View style={{width: width, height: height - 160}}>
           {/*<Header title={"Your Cart"} isBack={true} />  */}
 
           <View
@@ -244,16 +246,16 @@ const CartScreen = () => {
           </SafeAreaView>
         </View>
 
-        <View style={{...styles.checkOutContainer, bottom: cartUniqueItemsCount > 2 ? 190 : 50}}>
+        <View style={{...styles.checkOutContainer, width: width, height: 160}}>
           <View style={styles.checkOutBottomTabContainer}>
 
             <TouchableOpacity style={styles.orderTotalAndSavedContainer} onPress={() => handleTotalAndSavedContainerPress()}>
-              <Text style={styles.orderTotalText}>₹{totalAmount}</Text>
-              <Text style={styles.orderSavedText}>You Saved ₹{totalSaved}</Text>
+              <Text variant="titleMedium" style={styles.orderTotalText}>₹{totalAmount}</Text>
+              <Text variant="bodyMedium" style={styles.orderSavedText}>You Saved ₹{totalSaved}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={styles.placeOrderContainer}
+              style={{...styles.placeOrderContainer, backgroundColor: theme.colors.primary}}
               onPress={() => handleCheckout()}
             >
               <Text style={styles.placeOrderText}>
@@ -278,10 +280,11 @@ const styles = StyleSheet.create({
   AndroidSafeArea: {
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     //backgroundColor: "red"
+    //flex:1,
   },
   listContainer: {
-    flexGrow: 1,
-    paddingBottom: 350, //adjust this property to control the space below the list of cart items
+    //flexGrow: 1,
+    //paddingBottom: 350, //adjust this property to control the space below the list of cart items
   },
   productContainer: {
     flexDirection: "row",
@@ -374,10 +377,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   checkOutContainer: {
-    flex: 1,
+    //flex: 1,
     //bottom: 190,
     //bottom: 50,
-    backgroundColor: "yellow",
+    //backgroundColor: "yellow",
   },
   checkOutBottomTabContainer: {
     position: "absolute",
@@ -399,7 +402,7 @@ const styles = StyleSheet.create({
   },
   placeOrderContainer: {
     alignSelf: "flex-end",
-    backgroundColor: COLORS.green,
+    //backgroundColor: COLORS.green,
     height: 45,
     width: 160,
     borderRadius: 15,
@@ -418,13 +421,12 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   orderTotalText: {
-    fontSize: 17,
+    //fontSize: 17,
     fontWeight: "800",
   },
   orderSavedText: {
-    fontSize: 12,
-    fontWeight: "600",
-    color: COLORS.green,
+    //fontSize: 12,
+    fontWeight: "500",
   },
 });
 
